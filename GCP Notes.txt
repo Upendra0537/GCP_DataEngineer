@@ -1,0 +1,51 @@
+GCP
+
+- Compute and store are seperated for better resource utilization
+- Speed of transfer of data between compute and store - Petabyte bisectional bandwidth
+- gsutil - command prompt
+- serverless
+
+Levels
+Level-1 - Security
+Level-2 - Compute - Storage - Network
+Level-3 - 
+
+
+GCP Structure
+Organization - TCS
+Folders - Dep1,Dep2 -> Team1, Team2
+Projects - Test, Dev
+Resources - Compute
+
+Compute
+- Compute Engine - VM's
+- App Engine - Can run application Code
+- Kubernities Engine - Run Containers
+- Cloud Function - Logic for an event
+- Cloud Dataproc - can run Apache Spark jobs, Dataflows - ML Models
+- Pub/Sib - Publish and Subscriptions for events.
+
+
+Storage
+
+DataLake - Single source of data of the organization - gets data from multiple sources in multiple formats - Datadump
+Datawarehouse - Processed data which can be used for analytics - Known data
+
+CLASS
+- Standard - Daily or in usage
+- Nearline - Once in a week
+- Coldline - Once in a Month
+- Archive - High retrival Cost, Low Storage cost - once in a year
+
+Cloud Storage - Buckets - files
+Cloud SQL - RDMS - single Database/Location - Supports MYSQL/POSTGRES/SQLSERVER, can be single or multiple Zone(Production)
+Cloud Spinner - RDMS - Multiple Database/across globe
+Cloud Datastore - No SQL Database
+Cloud BigTable - High throughput - Sensor data
+Cloud BigQuery - DataAnalytics with ML SQL
+Cloud Shell - for quering DB's
+
+
+Compute Engine
+ - Standard VM's - can spin up by specifying region and zones, when required has some store on cluster
+ - Premptible VM's - can be used for quick computing, no cluster store
