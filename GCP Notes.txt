@@ -4,6 +4,8 @@ GCP
 - Speed of transfer of data between compute and store - Petabyte bisectional bandwidth
 - gsutil - command prompt
 - serverless
+- Stackdriver for monitoring the activities from logs
+-  DataEngineer - Build Pipelines
 
 Levels
 Level-1 - Security
@@ -18,6 +20,7 @@ Projects - Test, Dev
 Resources - Compute
 
 Compute
+-------------
 - Compute Engine - VM's
 - App Engine - Can run application Code
 - Kubernities Engine - Run Containers
@@ -26,10 +29,17 @@ Compute
 - Pub/Sib - Publish and Subscriptions for events.
 
 
-Storage
 
-DataLake - Single source of data of the organization - gets data from multiple sources in multiple formats - Datadump
-Datawarehouse - Processed data which can be used for analytics - Known data
+Compute Engine
+ - Standard VM's - can spin up by specifying region and zones, when required has some store on cluster
+ - Premptible VM's - can be used for quick computing, no cluster store
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Storage
+---------
+DataLake - Single source of data of the organization - gets data from multiple sources in multiple formats - Datadump - Cloud Storage
+Datawarehouse - Processed data which can be used for analytics - Known data - Cloud BigQuery
 
 CLASS
 - Standard - Daily or in usage
@@ -46,6 +56,36 @@ Cloud BigQuery - DataAnalytics with ML SQL
 Cloud Shell - for quering DB's
 
 
-Compute Engine
- - Standard VM's - can spin up by specifying region and zones, when required has some store on cluster
- - Premptible VM's - can be used for quick computing, no cluster store
+Cloud BigQuery
+	- can use SQL for quering the data 
+	- Managed Database
+- explore datastudio - for graphs on data
+- Cloud Dataprep - to get insights on the data
+- Normalization(multiple tables to reduce duplication of data) is for RDMS but for BigQuery - Single table as you can have Arrays for columns and STRUCTs (column families) datatype - record
+- Follows De-Normalization Process by combining multiple table data into a single table using Structs
+- Nested and repeated Data
+Sample:  Repeat (Datatype)
+1	1234-1	start		01-01-2021
+		inprogress	
+		complete
+
+Event - Record (Mode) 
+	Event.start	- Timestamp
+	Event.end	- Timestamp
+
+- Unnested is used to extract the data from a Record Mode
+- Slots - unit of computation Power 
+- Project.dataset.table - bigquery structure
+	- Dataset - Similar to Database
+- authentication with IAM - at dataset level
+- to give authentication at record level  - create view on the table and provide required access to view.
+- Views cannot be exported.
+- Optimized for read not good for updates(use BigTable)
+- Big Data Transfer Service  -  EL , ELT, ETL
+- Partitioning - Save query time
+	- Defining Partition on a date related column 
+- Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency
+	- Defining multiple columns are clusters
+	- Order of the columns is critical.
+	- Bigquery internally Clusters data automatically
+- If a query is run, the result is generally cache for 24 hrs, If we run the same query there will not be any processing done and query time = 0 Sec
