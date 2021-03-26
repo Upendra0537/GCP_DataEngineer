@@ -5,12 +5,19 @@ GCP
 - gsutil - command prompt
 - serverless
 - Stackdriver for monitoring the activities from logs
--  DataEngineer - Build Pipelines
+- DataEngineer - Build Pipelines
+- 5 Dimension of Data
+	- Validity
+	- Accuracy
+	- Completeness
+	- Consistency
+	- Uniformity
+
 
 Levels
 Level-1 - Security
 Level-2 - Compute - Storage - Network
-Level-3 - 
+Level-3 - Big Data and ML Products
 
 
 GCP Structure
@@ -25,14 +32,86 @@ Compute
 - App Engine - Can run application Code
 - Kubernities Engine - Run Containers
 - Cloud Function - Logic for an event
-- Cloud Dataproc - can run Apache Spark jobs, Dataflows - ML Models
+- Cloud Dataproc - can run Apache Spark jobs, Dataflows - ML Models, support both batch and streaming data 
 - Pub/Sib - Publish and Subscriptions for events.
+- Cloud DataFlow - Apache Beam jobs
+- Cloud Data Fusion - Build Pipeline by drag and drop and can run in Clound Dataproc
 
 
-
-Compute Engine
+Compute Engine:
  - Standard VM's - can spin up by specifying region and zones, when required has some store on cluster
  - Premptible VM's - can be used for quick computing, no cluster store
+
+Cloud DataProc
+- to Apachi Spark or Hadoop jobs 
+- Uses
+	- Persistent Clusters - Persistent data cluster
+	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them 
+- On-permis - HDFS to Cloud Storage 
+- Seperate Compute from storate 
+	- Run hadoop jobs on Cluster with memory block size - inefficient - old way - On-permis
+	- Run Hadoop jobs on Dataproc with Data from Cloud Storage - Petabite bandwidth
+- Googles Data Center
+	- Store - Colossus
+	- Network - Jupiter
+- local HDFS is better if it is small chuncks of data, lot many change in the data.
+- Cloud Storage for input and output.
+- Autoscaling is reactive - based on cluster utilization.
+
+Cloud Data Fusion:
+- to create visual data pipelines
+	Wrangler - for reviewing the data, create transformations and create a reciepie which can be used in datafusion to run the recipie on teh whole dataset
+	Data Pipeline - Framework - drap and drop 
+	Rules Engine - for rules from Business
+	Metadata Aggregator - field level details
+- Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
+-Lineage of data - transformations which happened on each field of data from source to destination
+
+Cloud Composer:
+- orchestrator built on open source Apache Air Flow to streamline multiple activites.
+- Need to create an environment
+- Each of the block of operations are created in DAG(Direct Acyclic Graph) - takes input and outputs but cannot trigger itself
+	- a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
+	- written in Python language and placed in DAG folder
+	- run this python code to create a DAG object with tasks
+	- Each Task with have inbuild operators 
+- can be trigger by 
+	- Push - Event - using Cloud Functions
+	- Pull - Schedule
+- monitoring can be done using stackdriver or cloud logging
+
+Cloud Dataflow:
+- based on Apache Beam = Batch + stEAM
+- same code for can be used for Batch and stream processing of data 
+- new datapipeline - build for future
+- Contains - Parallel execution
+	- pCollection - immutable data - copies of data are made between transformations
+		- Unbounded pCollection - Streaming Data
+		- bounded pCollection - Batch Data
+	- pTransform - Input/Transformations/output - Map,FlatMap,ParDo,GroupByKey,coGroupByKey,Combine,CombineFn,Flatten,Partition
+	- prunners - compute power - local/cloud
+	- Pipeline
+- Contains the data in pCollections as byte stream(elements) rather than fixed datatypes
+- AutoScaling - AutoBalancing in between the process - Auto Optimization once the pipeline is submitted. If there are independent transforms, they would process parallelly
+- Intellegent Watermark
+- Side Inputs
+- Windows
+- data skewing - holding up a resource for other resources to complete the work
+
+Cloud Pub/Sub 
+- Components
+	- Publisher - publishes messages based on Topics created
+	- Subscriber - Subscribes to the Topics
+- one to many mapping between publisher -> Topic -> Subscription -> Subscriber
+- Request Types
+	- Pull - Subscribers initiaties the actions, requests messages, pub sends the message, sub acknowledges the message
+	- Push - Publisher pushes the message to Subscriber, Sub Acknowledges the message
+- Message are sent to Subscriber for if there is delay with acknowledgement time.
+- Issues
+	- Messages can arrive not in order of the event
+	- Duplication of message expected
+	- Publisher stores for only 7 days.
+	- each message has a limitation of 10MB and stored in binary order
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -54,7 +133,7 @@ Cloud Datastore - No SQL Database
 Cloud BigTable - High throughput - Sensor data
 Cloud BigQuery - DataAnalytics with ML SQL
 Cloud Shell - for quering DB's
-
+Data Catalog - Metadata Management Services
 
 Cloud BigQuery
 	- can use SQL for quering the data 
@@ -74,6 +153,8 @@ Event - Record (Mode)
 	Event.end	- Timestamp
 
 - Unnested is used to extract the data from a Record Mode
+You need to UNNEST() arrays to bring the array elements back into rows
+UNNEST() always follows the table name in your FROM clause (think of it conceptually like a pre-joined table)
 - Slots - unit of computation Power 
 - Project.dataset.table - bigquery structure
 	- Dataset - Similar to Database
@@ -89,3 +170,31 @@ Event - Record (Mode)
 	- Order of the columns is critical.
 	- Bigquery internally Clusters data automatically
 - If a query is run, the result is generally cache for 24 hrs, If we run the same query there will not be any processing done and query time = 0 Sec
+- Compatable with backward filling - filling any missed values which arrive late
+- Lineage - To track the source, process and destination of the data - Metadata of the data 
+	- Labels can be used for tracking - Key: Value pairs
+- BigQuery SQL can solve data consistency problems(5 dimensions of data)
+- Cross Join
+#standardSQL
+SELECT race, participants.name
+FROM racing.race_results
+CROSS JOIN
+race_results.participants # full STRUCT name
+
+#standardSQL
+SELECT race, participants.name
+FROM racing.race_results AS r, r.participants
+
+- Some Commands
+finding the number of elements with ARRAY_LENGTH(<array>)
+deduplicating elements with ARRAY_AGG(DISTINCT <field>)
+ordering elements with ARRAY_AGG(<field> ORDER BY <field>)
+limiting ARRAY_AGG(<field> LIMIT 5)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ML
+----------
+AutoML API - APIs and Services
+Vision - Imports -> Train -> Evaluate -> Validate
+	- Need labled data
