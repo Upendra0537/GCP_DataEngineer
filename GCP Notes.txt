@@ -12,6 +12,16 @@ GCP
 	- Completeness
 	- Consistency
 	- Uniformity
+- While quering data the most of the time consumption is for I/O operations rather than the computes involved in it. That is reducing the query to only pull specific Columns information runs faster than the all the columns.
+	-Avoid self-joins of large tables
+	-Efficient joins - Denormalization
+	-Use window functions instead of Joins
+	- Join with precomputed values
+	-Approximate aggregation functions 
+		-  COUNT(DISTINCT …), we can use APPROX_COUNT_DISTINCT
+		- APPROX_QUANTILES to compute percentiles
+		- APPROX_TOP_COUNT to find the top elements 
+		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
 
 
 Levels
@@ -36,6 +46,7 @@ Compute
 - Pub/Sib - Publish and Subscriptions for events.
 - Cloud DataFlow - Apache Beam jobs
 - Cloud Data Fusion - Build Pipeline by drag and drop and can run in Clound Dataproc
+- Cloud Monitoring - can be used to monitor any process and create alerts and dashboards
 
 
 Compute Engine:
@@ -112,7 +123,26 @@ Cloud Pub/Sub
 	- Duplication of message expected
 	- Publisher stores for only 7 days.
 	- each message has a limitation of 10MB and stored in binary order
+Commands
 
+gcloud pubsub topics create sandiego
+gcloud pubsub topics publish sandiego --message "hello"
+messageIds:
+- '2201523698972039'
+gcloud pubsub subscriptions create --topic sandiego mySub1
+Created subscription [projects/qwiklabs-gcp-02-447c7e5c4d12/subscriptions/mySub1].
+gcloud pubsub subscriptions pull --auto-ack mySub1
+Listed 0 items.
+gcloud pubsub topics publish sandiego --message "hello again"
+messageIds:
+- '2201516210054304'
+gcloud pubsub subscriptions pull --auto-ack mySub1
+┌─────────────┬──────────────────┬────────────┐
+│     DATA    │    MESSAGE_ID    │ ATTRIBUTES │
+├─────────────┼──────────────────┼────────────┤
+│ hello again │ 2201516210054304 │            │
+└─────────────┴──────────────────┴────────────┘
+gcloud pubsub subscriptions delete mySub1
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
@@ -165,6 +195,7 @@ UNNEST() always follows the table name in your FROM clause (think of it conceptu
 - Big Data Transfer Service  -  EL , ELT, ETL
 - Partitioning - Save query time
 	- Defining Partition on a date related column 
+	- can also have the flexibility to expire the data 
 - Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency
 	- Defining multiple columns are clusters
 	- Order of the columns is critical.
@@ -184,7 +215,6 @@ race_results.participants # full STRUCT name
 #standardSQL
 SELECT race, participants.name
 FROM racing.race_results AS r, r.participants
-
 - Some Commands
 finding the number of elements with ARRAY_LENGTH(<array>)
 deduplicating elements with ARRAY_AGG(DISTINCT <field>)
@@ -198,3 +228,72 @@ ML
 AutoML API - APIs and Services
 Vision - Imports -> Train -> Evaluate -> Validate
 	- Need labled data
+
+ML Framework
+	- Tensor Flow
+	- AI Platform
+
+Cloud AutoML - bring your data
+Pre-trained ML Model
+	- Cloud Vision API
+	- Cloud Speech API
+	- Cloud Jobs API
+	- Cloud Translation API
+	- Cloud Natural Language API
+	- Cloud Video Intelligence API
+	
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Streaming Data processing:
+-------------------------------
+- Continous Stream of data, Difficult to handle aggregate functions
+- Data consists of 	
+	ELEMENT DTS
+- DTS is a event Timestamp setup buy pubsub
+- Solution for streaming data - WINDOWS
+	- Fixed Window - 60 Sec - new window starts every 60 sec
+	- sliding Window - (60,5) - New window starts for every 5 secs with a window span of 60 secs
+	- Session Window  - (10*60) - session max size - 600 sec
+- windows gets flushed out or customized behaviour after the timeout
+- Handles latency of data - late data by using Intellegent watermark
+	lag time = actual time - expected time.
+	each window is extended to end at windowtime + lag time to accomidate the late data
+	- WaterMark options
+		- AfterWatermark - based on event time triggered (DTS)
+		- AfterProcessTime - based on processing time
+		- AfterCount - based on Data driven trigger.
+- Streaming Data into Bigquery
+	- Uses Streaming Buffer - there is a quote and price for loading Streaming data into Bigquery
+	- prefer to use batch or repeated batch which is free
+	- DataStudio is used to do visual representation of data.
+		- Access to Charts in Datastudio doesn't provide access to the underlying data
+		- if Edit access is provided to chart, access is provided to the whole table and rows from which the chart is made.
+
+
+Cloud BigTable 
+ - Very High through put with very less latency
+- No SQL database
+- Cluster based
+- Structure
+	- Based on Colossus File System to store Data - maintains 3 replicas
+	- Uses Clusters with multiple nodes to store metadata of Tablets
+	- Colossus uses TABLETS - Datastructure which contains pointers to the data
+- learning system and self optimized and self reliabilie and self redistribution of traffic- Min 300GB required
+- Fault Tolerant - if a node is lost, a new nodes come-up and only the metadata and pointers are update not the actual data as it lies is colossus
+- Data stored in Tables
+	- Rows and Columns (Column Families)
+	- Only one index - row key (Unique) 
+- converts all the searches and Sorts into Scans
+	- Construction of the row key for specific scnearios is key
+- increase in nodes have linear relation ship with number of operations can be performed
+- Visualizer with Heat map to looking for key insights on how the data is being used
+
+
+GIS Functions
+---------------
+- used to get geo-spacial details
+- Bigquery GeoViz for Graphical view of Geo Spacail points in Maps.
+- Structs are used to organize columns from Different Tables for more reability.
+- With Clauses are used to create named Sub Queries and used for pre-processing of data rather than creating staging tables.
+- Lead and Lag Functions to get the previous value of a column for a  specific keys. Need to use partitions and orderby to have the data in sorted order
+- RANK function
