@@ -24,6 +24,8 @@ GCP
 		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
 
 
+- wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
+
 Levels
 Level-1 - Security
 Level-2 - Compute - Storage - Network
@@ -168,6 +170,8 @@ Data Catalog - Metadata Management Services
 Cloud BigQuery
 	- can use SQL for quering the data 
 	- Managed Database
+- Count() only returns the number but doesn't remove the duplicates
+- Groupby is used to remove duplicates
 - explore datastudio - for graphs on data
 - Cloud Dataprep - to get insights on the data
 - Normalization(multiple tables to reduce duplication of data) is for RDMS but for BigQuery - Single table as you can have Arrays for columns and STRUCTs (column families) datatype - record
@@ -196,6 +200,8 @@ UNNEST() always follows the table name in your FROM clause (think of it conceptu
 - Partitioning - Save query time
 	- Defining Partition on a date related column 
 	- can also have the flexibility to expire the data 
+	- all_sessions_raw_(N) - number of tables partitioned by date
+	- Sample with wildcard SELECT * FROM `ecommerce.sales_by_sku_2017*`
 - Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency
 	- Defining multiple columns are clusters
 	- Order of the columns is critical.
@@ -221,10 +227,107 @@ deduplicating elements with ARRAY_AGG(DISTINCT <field>)
 ordering elements with ARRAY_AGG(<field> ORDER BY <field>)
 limiting ARRAY_AGG(<field> LIMIT 5)
 
+bq show bigquery-public-data:samples.shakespeare 
+
+bq query --use_legacy_sql=false \
+'SELECT
+   word,
+   SUM(word_count) AS count
+ FROM
+   `bigquery-public-data`.samples.shakespeare
+ WHERE
+   word LIKE "%raisin%"
+ GROUP BY
+   word'
+
+#standardSQL
+
+# copy one day of ecommerce data to explore
+CREATE OR REPLACE TABLE ecommerce.revenue_transactions_20170801
+#schema
+(
+  fullVisitorId STRING NOT NULL OPTIONS(description="Unique visitor ID"),
+  visitId STRING NOT NULL OPTIONS(description="ID of the session, not unique across all users"),
+  channelGrouping STRING NOT NULL OPTIONS(description="Channel e.g. Direct, Organic, Referral..."),
+  totalTransactionRevenue FLOAT64 NOT NULL OPTIONS(description="Revenue for the transaction")
+)
+ OPTIONS(
+   description="Revenue transactions for 08/01/2017"
+ ) AS
+ SELECT DISTINCT
+  fullVisitorId,
+  CAST(visitId AS STRING) AS visitId,
+  channelGrouping,
+  totalTransactionRevenue / 1000000 AS totalTransactionRevenue
+ FROM `data-to-insights.ecommerce.all_sessions_raw`
+ WHERE date = '20170801'
+      AND totalTransactionRevenue IS NOT NULL #XX transactions
+;
+
+What are ways to overcome stale data? - reflecting of changes when the upstream table has changes
+There are two ways to overcome stale data in reporting tables:
+- Periodically refresh the permanent tables by re-running queries that insert in new records. This can be done with BigQuery scheduled queries or with a Cloud Dataprep / Cloud Dataflow workflow.
+- Use logical views to re-run a stored query each time the view is selected
+	
+#standardSQL
+CREATE OR REPLACE VIEW ecommerce.vw_latest_transactions
+OPTIONS(
+  description="latest 100 ecommerce transactions",
+  labels=[('report_type','operational')]
+)
+AS
+SELECT DISTINCT
+  date,
+  fullVisitorId,
+  CAST(visitId AS STRING) AS visitId,
+  channelGrouping,
+  totalTransactionRevenue / 1000000 AS totalTransactionRevenue
+ FROM `data-to-insights.ecommerce.all_sessions_raw`
+ WHERE totalTransactionRevenue IS NOT NULL
+ ORDER BY date DESC # latest transactions
+ LIMIT 100
+;
+
+- SAFE_DIVIDE(field1,field2) to avoid divide by 0 errors
+
+-  The difference between a UNION and UNION ALL is that a UNION will not include duplicate records.
+
+- Linking external tables to BigQuery  - Importing data from the google sheet will not create the table but would estabilish a connection. if we update the google sheet. the changes are reflected in the query.
+
+ - STRING_AGG(DISTINCT v2ProductName ORDER BY v2ProductName LIMIT 10) AS products_ordered
+	- is used to get sample data from a column with comma seperated.
+
+- ARRAY_AGG(DISTINCT v2ProductName) AS push_all_names_into_array
+	- is used to create an array of product names
+
+- Joins
+	- Cross join - outerjoin - no need of join condition - merges the tables
+	- Inner join - by default - only the common data in both tables
+	- Left Inner Join - full data of the left table and matching with the second tables - commonly used join.
+	- right Inner join - full data of the right table and matching with the second tables - generaly we will use left inner join by swapping tables.
+	
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ML
 ----------
+
+Artificial Intelligence - Discipine(Like Physics)
+	- Machince Learning - one alternative (Like Newton's law)
+		- Deep Learning
+
+ML Activities
+- Ingest Data (Transfer Services/CloudStorage)
+	- Prepare(Dataproc/DataFlow/Dataprep/Bigquery)
+		- PreProcess(DataFlow/DataProc/BigQuery)
+			- Discover(AI Hub)
+				- Develop(Data Labeling Platform/Deep learning VM Image/AI Platform Notebooks)
+					- Train(AI Platform Training/Kubeflow- onpermise)
+						- Test&Analysis(TFX Tools)
+							- Deploy(AI Platform Predication/Kuberflow-onpremise)
+- Kubeflow 
+	- Google Opensource ML Pipeline framework
+	- can be packaged with dependencies and can run on any cloud provider
+	- provides visual flow the actvitives
 AutoML API - APIs and Services
 Vision - Imports -> Train -> Evaluate -> Validate
 	- Need labled data
@@ -232,16 +335,68 @@ Vision - Imports -> Train -> Evaluate -> Validate
 ML Framework
 	- Tensor Flow
 	- AI Platform
+- Models
+	- Build a Custom Model
+		- Cloud TPU's
+		- Kubernetes Engine
+		- Cloud AI Plaftform
+		- Big Query ML
+		- Cloud DataProc
+		- Compute Engine		
+	- Build Custom Model (Code Less) - bring your data
+		- Cloud AutoML 
+		- Cloud API Hub
+	- Pre-trained ML Model
+		- Cloud Vision API
+		- Cloud Speech API
+		- Cloud Jobs API
+		- Cloud Translation API
+		- Cloud Natural Language API
+		- Cloud Video Intelligence API
+		- Cloud Data Loss Prevention API
+		- Cloud Speech Synthesis API
+		- Cloud Dialogflow
 
-Cloud AutoML - bring your data
-Pre-trained ML Model
-	- Cloud Vision API
-	- Cloud Speech API
-	- Cloud Jobs API
-	- Cloud Translation API
-	- Cloud Natural Language API
-	- Cloud Video Intelligence API
-	
+- Training Data -> Auto ML -> Predication with REST API
+
+NLP
+ - Syntactical Analysis - Grammer
+ - Entity Analysis - cateogorizing words - phone numbers, States
+ - Sentiment Analysis - Emotional opinion - +ve,-ve, neutral
+	- Score -1 to +1
+	- Magnitude = 0 to infinity
+
+
+AI Platform - cloud Notebooks
+- for sharing notebooks 
+- Maggic Functions - %%bigquery
+
+BigQuery ML
+- Ingest - ML.Weights(inspect)
+	- Train - ML.TrainingInfo
+		- Evaluate - ML.Evaluate
+			- Predict - ML.Predict
+- Transform - keyword used in transformations to the raw data before training it and is used to do the same transformations before the prediction
+- Labels
+- Feature info - ML.Feature_info
+- Models
+	- Supervised - labeled data
+		- Classification
+			- linear
+			- logistic
+			- dnn_classifier
+			- boosted_tree_classifier
+		- Regression
+			- linear_
+			- Logistic_reg
+			- dnn_regressor
+			- boosted_tree_regressor
+		- Recommendation
+			- tensorflow
+			- matrix_factorization
+	- UnSupervised - unlabeled data - clusters
+		- kmeans
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Streaming Data processing:
