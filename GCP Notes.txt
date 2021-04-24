@@ -38,6 +38,14 @@ Folders - Dep1,Dep2 -> Team1, Team2
 Projects - Test, Dev
 Resources - Compute
 
+IAM - access control
+ACL - Access control List - multiple accounts
+Service Accounts creation
+Encryption keys
+Signed URL - To provide a Cloud storage URL for access and restricting the URL with respect the access time. can only be used with gsutil - No UI Console
+
+
+
 Compute
 -------------
 - Compute Engine - VM's
@@ -54,6 +62,12 @@ Compute
 Compute Engine:
  - Standard VM's - can spin up by specifying region and zones, when required has some store on cluster
  - Premptible VM's - can be used for quick computing, no cluster store
+ - Persistance Disks - to create storage space with X storage
+	Data persist even if the VM is shutdown 
+	Data is restricted to the Zone it exist so any VM which is in other region or zone cant access this.
+	Snapshot are avaiable globally and can be used to create disk in other zones as needed
+	SSD - has faster IOP
+	increase of storage space - increases the IOP
 
 Cloud DataProc
 - to Apachi Spark or Hadoop jobs 
@@ -162,14 +176,23 @@ Cloud Storage - Buckets - files
 Cloud SQL - RDMS - single Database/Location - Supports MYSQL/POSTGRES/SQLSERVER, can be single or multiple Zone(Production)
 Cloud Spinner - RDMS - Multiple Database/across globe
 Cloud Datastore - No SQL Database
-Cloud BigTable - High throughput - Sensor data
-Cloud BigQuery - DataAnalytics with ML SQL
+Cloud BigTable - High throughput - Sensor data, Optimized for writes
+Cloud BigQuery - DataAnalytics with ML SQL, optimized for Reads
 Cloud Shell - for quering DB's
 Data Catalog - Metadata Management Services
 
+Cloud Storage
+ - Same zone - low latency
+ - Also called as Object Storage
+ - Limitation of the object size to 5T
+ - version is allowed but is OFF by default
+ - Class is respect to object no with respect to version
+ - Small data transfers - console, gutil
+ - large data transfers - Transfer applications(one time transfer), Transfer services(scheduled/repeatitive)
+
 Cloud BigQuery
 	- can use SQL for quering the data 
-	- Managed Database
+	- Managed Database(backup, optimization)
 - Count() only returns the number but doesn't remove the duplicates
 - Groupby is used to remove duplicates
 - explore datastudio - for graphs on data
@@ -177,18 +200,28 @@ Cloud BigQuery
 - Normalization(multiple tables to reduce duplication of data) is for RDMS but for BigQuery - Single table as you can have Arrays for columns and STRUCTs (column families) datatype - record
 - Follows De-Normalization Process by combining multiple table data into a single table using Structs
 - Nested and repeated Data
+- get granular data from ARRAYs when you need it but not be punished if you don't (BigQuery stores each column individually on disk)
 Sample:  Repeat (Datatype)
 1	1234-1	start		01-01-2021
 		inprogress	
 		complete
 
 Event - Record (Mode) 
-	Event.start	- Timestamp
+	Event.start	- Timestamp 
 	Event.end	- Timestamp
 
-- Unnested is used to extract the data from a Record Mode
-You need to UNNEST() arrays to bring the array elements back into rows
-UNNEST() always follows the table name in your FROM clause (think of it conceptually like a pre-joined table)
+Struct Sample:
+#standardSQL
+SELECT race, participants.name
+FROM racing.race_results AS r, r.participants
+
+#standardSQL
+SELECT COUNT(p.name) AS racer_count
+FROM racing.race_results AS r, UNNEST(r.participants) AS p
+
+- Unnested is used to extract the data from a Record Mode so as to flatten the data.
+	You need to UNNEST() arrays to bring the array elements back into rows
+	UNNEST() always follows the table name in your FROM clause (think of it conceptually like a pre-joined table)
 - Slots - unit of computation Power 
 - Project.dataset.table - bigquery structure
 	- Dataset - Similar to Database
@@ -299,6 +332,17 @@ SELECT DISTINCT
 
 - ARRAY_AGG(DISTINCT v2ProductName) AS push_all_names_into_array
 	- is used to create an array of product names
+SELECT
+  fullVisitorId,
+  date,
+  ARRAY_AGG(DISTINCT v2ProductName) AS products_viewed,
+  ARRAY_LENGTH(ARRAY_AGG(DISTINCT v2ProductName)) AS distinct_products_viewed,
+  ARRAY_AGG(DISTINCT pageTitle) AS pages_viewed,
+  ARRAY_LENGTH(ARRAY_AGG(DISTINCT pageTitle)) AS distinct_pages_viewed
+  FROM `data-to-insights.ecommerce.all_sessions`
+WHERE visitId = 1501570398
+GROUP BY fullVisitorId, date
+ORDER BY date
 
 - Joins
 	- Cross join - outerjoin - no need of join condition - merges the tables
@@ -306,6 +350,7 @@ SELECT DISTINCT
 	- Left Inner Join - full data of the left table and matching with the second tables - commonly used join.
 	- right Inner join - full data of the right table and matching with the second tables - generaly we will use left inner join by swapping tables.
 	
+-  The summary will be slightly different because the RAND() component of the WHERE clause will return a different 1% selection of the data each time the query is executed.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ML
@@ -397,6 +442,34 @@ BigQuery ML
 	- UnSupervised - unlabeled data - clusters
 		- kmeans
 
+Example:
+
+Model Creations:
+CREATE OR REPLACE MODEL `ecommerce.classification_model`
+OPTIONS
+(
+model_type='logistic_reg',
+labels = ['will_buy_on_return_visit']
+)
+AS
+<<Select query data>>
+
+
+Evaluate: - area under the curve
+SELECT
+  roc_auc,
+  CASE
+    WHEN roc_auc > .9 THEN 'good'
+    WHEN roc_auc > .8 THEN 'fair'
+    WHEN roc_auc > .7 THEN 'decent'
+    WHEN roc_auc > .6 THEN 'not great'
+  ELSE 'poor' END AS model_quality
+FROM
+  ML.EVALUATE(MODEL ecommerce.classification_model,  ( <<select query data>>)
+
+evaulation params - better model
+roc_auc - more value 
+SQRT - less value
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Streaming Data processing:
