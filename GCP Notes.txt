@@ -4,7 +4,7 @@ GCP
 - Speed of transfer of data between compute and store - Petabyte bisectional bandwidth
 - gsutil - command prompt
 - serverless
-- Stackdriver for monitoring the activities from logs
+- Stackdriver for monitoring the activities from logs - who,what and where - Stackdriver audit logs
 - DataEngineer - Build Pipelines
 - 5 Dimension of Data
 	- Validity
@@ -22,7 +22,8 @@ GCP
 		- APPROX_QUANTILES to compute percentiles
 		- APPROX_TOP_COUNT to find the top elements 
 		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
-
+- Anthos - open source - on permise or cloud application - development and operations experiences - faster/modernized apps
+- cloud source repository - for storing code for free
 
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
 
@@ -84,6 +85,8 @@ Cloud DataProc
 - local HDFS is better if it is small chuncks of data, lot many change in the data.
 - Cloud Storage for input and output.
 - Autoscaling is reactive - based on cluster utilization.
+- Cloud DataProc workflow templates for scheduling the jobs
+- Support MapReduce,Spark,Hive,Pig
 
 Cloud Data Fusion:
 - to create visual data pipelines
@@ -124,6 +127,8 @@ Cloud Dataflow:
 - Side Inputs
 - Windows
 - data skewing - holding up a resource for other resources to complete the work
+- Drain Feature - stops pulling the data from the source and tries to complete the dataflow with the existing data.
+- maxNumWorkers - to limit scaling 
 
 Cloud Pub/Sub 
 - Components
@@ -179,7 +184,7 @@ Cloud Datastore - No SQL Database
 Cloud BigTable - High throughput - Sensor data, Optimized for writes
 Cloud BigQuery - DataAnalytics with ML SQL, optimized for Reads
 Cloud Shell - for quering DB's
-Data Catalog - Metadata Management Services
+Data Catalog - Metadata Management Services, doesnt support Datastore/BigTable
 
 Cloud Storage
  - Same zone - low latency
@@ -188,14 +193,14 @@ Cloud Storage
  - version is allowed but is OFF by default
  - Class is respect to object no with respect to version
  - Small data transfers - console, gutil
- - large data transfers - Transfer applications(one time transfer), Transfer services(scheduled/repeatitive)
+ - large data transfers - Transfer appliance(one time transfer), Transfer services(scheduled/repeatitive)
 
 Cloud BigQuery
 	- can use SQL for quering the data 
 	- Managed Database(backup, optimization)
 - Count() only returns the number but doesn't remove the duplicates
 - Groupby is used to remove duplicates
-- explore datastudio - for graphs on data
+- explore datastudio - for graphs on data, data is cached for one hr - can be set by Data Freshness
 - Cloud Dataprep - to get insights on the data
 - Normalization(multiple tables to reduce duplication of data) is for RDMS but for BigQuery - Single table as you can have Arrays for columns and STRUCTs (column families) datatype - record
 - Follows De-Normalization Process by combining multiple table data into a single table using Structs
@@ -235,10 +240,12 @@ FROM racing.race_results AS r, UNNEST(r.participants) AS p
 	- can also have the flexibility to expire the data 
 	- all_sessions_raw_(N) - number of tables partitioned by date
 	- Sample with wildcard SELECT * FROM `ecommerce.sales_by_sku_2017*`
+	- only 4000 partitions allowed
 - Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency
 	- Defining multiple columns are clusters
 	- Order of the columns is critical.
 	- Bigquery internally Clusters data automatically
+	- no limitation on number of clusters in a table
 - If a query is run, the result is generally cache for 24 hrs, If we run the same query there will not be any processing done and query time = 0 Sec
 - Compatable with backward filling - filling any missed values which arrive late
 - Lineage - To track the source, process and destination of the data - Metadata of the data 
@@ -301,6 +308,18 @@ What are ways to overcome stale data? - reflecting of changes when the upstream 
 There are two ways to overcome stale data in reporting tables:
 - Periodically refresh the permanent tables by re-running queries that insert in new records. This can be done with BigQuery scheduled queries or with a Cloud Dataprep / Cloud Dataflow workflow.
 - Use logical views to re-run a stored query each time the view is selected
+
+maxBadRecords - used to set X% of invalid data allowed
+
+Low Cost - use data preview/Dry run - no charge
+	- using Limit clause - no impact to charge
+
+Federated Datasource for bigquery
+	- BigTable
+	- Cloud Storage
+	- Cloud SQL
+	- Google Drive
+	- not Datastore
 	
 #standardSQL
 CREATE OR REPLACE VIEW ecommerce.vw_latest_transactions
@@ -411,6 +430,20 @@ NLP
 	- Score -1 to +1
 	- Magnitude = 0 to infinity
 
+Methods used to overcome overfitting
+ - Data Augmentation - generate more data for training(rotating/flipping) - reduces overfitting and high accuracy in training
+ - Regularization
+	L1 Regularization - give weights as zero for not important feature, simple
+	L2 Regularization - decays the weights towards zero but not zero, complex
+ - DropOut - ignore few subset of the units based on probability 
+ - Reduce size of Network - remove layer/units
+ - Hold-out - 80-20 principle of Training vs testing data
+ - cross validation - K groups, 1 group for testing, all remaining groups for training.. repeat process untill all the K groups are covered
+ - feature selection
+ - early stop - based on loss graph
+
+Methods use to overcome underfitting
+
 
 AI Platform - cloud Notebooks
 - for sharing notebooks 
@@ -441,6 +474,13 @@ BigQuery ML
 			- matrix_factorization
 	- UnSupervised - unlabeled data - clusters
 		- kmeans
+
+Model evaluation parameters
+- Classification Problem - Confusion matrix, precision, recall, accuracy
+- Regression Problem - MAE(Mean Absolute Error) ,MSE(Mean Square Error),RMSE(Root Mean Square Error)
+
+RNN - Recurrent Neural Network - weather forcase model - Time series problem
+CNN - Convolution Neural Network
 
 Example:
 
@@ -500,6 +540,8 @@ Streaming Data processing:
 
 Cloud BigTable 
  - Very High through put with very less latency
+- fixed access patterns
+- time series data
 - No SQL database
 - Cluster based
 - Structure
@@ -515,6 +557,8 @@ Cloud BigTable
 	- Construction of the row key for specific scnearios is key
 - increase in nodes have linear relation ship with number of operations can be performed
 - Visualizer with Heat map to looking for key insights on how the data is being used
+- Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
+- Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
 
 
 GIS Functions
