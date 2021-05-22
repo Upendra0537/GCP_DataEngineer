@@ -110,22 +110,59 @@ Cloud Dataflow:
 - based on Apache Beam = Batch + Stream
 - same code for can be used for Batch and stream processing of data 
 - new datapipeline - build for future
-- 
 - Contains - Parallel execution
-	- pCollection - immutable data - copies of data are made between transformations
+  - Driver Program - written by java or python
+    - pipeline
+	- pCollection - immutable data(cannot be updated) - copies of data are made between transformations - Access to all elements - Timestamp for each element
 		- Unbounded pCollection - Streaming Data
 		- bounded pCollection - Batch Data
 	- pTransform - Input/Transformations/output - Map,FlatMap,ParDo,GroupByKey,coGroupByKey,Combine,CombineFn,Flatten,Partition
-	- prunners - compute power - local/cloud
-	- Pipeline
+  - prunners - compute power - local/cloud for running driver program
 - Contains the data in pCollections as byte stream(elements) rather than fixed datatypes
+- with pCollections and pTransforms a dataflow pipelines is non linear DAG(Direct Acyclic graph - no cycles (output of transform be input of the same transform)
+- eventtime(dataelement occurs timestamp on it), processing times(different time when it gets processed = eventime +x , eventtime + y)
 - AutoScaling - AutoBalancing in between the process - Auto Optimization once the pipeline is submitted. If there are independent transforms, they would process parallelly
-- Intellegent Watermark
+- Intellegent Watermark - is the lag time the window need to wait for getting all the data based on the event timestamp to fall into the window.
+- Late Data - data that arrives with timestamp that is inside the window but comes past the watermark
 - Side Inputs
-- Windows
+- Triggers - when the Beams decides to output aggregated results - assumes all the data is present in the window - for bounded data when it process all data in the window - for unbounded when the watermark passes the end of the window
+	- eventtime - default
+	- processing time
+	- Data-driven 
+	- composite 
+- Windows - converts streaming data in pCollection to finite windows for aggregate functions
+	- Fixed Time window - constant duration - non overlap
+	- Sliding windows - overlap - running averages of data(1 min window every 10 sec)
+	- Session Window - per key bases - irregularly distributed - each window is seperated by irregular time slot
+	- single global window - default
 - data skewing - holding up a resource for other resources to complete the work
 - Drain Feature - stops pulling the data from the source and tries to complete the dataflow with the existing data.
 - maxNumWorkers - to limit scaling 
+
+pTransforms - core beam transforms
+- ParDo - acts on a single data from input pCollection and generates zero,one,many data into the output pCollection - DoFn is a template to create userdefined functions referred in ParDo - Map phase in Mapreduce
+- Aggregation - to merge common keys or window from an input pCollection and write it to output pCollection
+- GroupByKey - Collect all the values associated with a unique key - suffle phase in mapreduce
+- CoGroupByKey - Relational join of multiple pCollections with same key type
+- Combine - Combining of elemention using a combine function - Min/Max/Sum
+- Flatten - Merges multiple pCollections into a single pCollection
+- Partition - How the elements of pCollection can be splitup - reduce phse in mapreduce
+
+Flow -
+In Cloud - pipeline is triggered in GCP Cloud Dataflow service - which submits GCP Cloud Dataflow jobs - which invokes multiple worker nodes  - which uses cloud storage for data
+
+IAM 
+- Cloud Dataflow service accounts - to access VM's and data
+- Controller service accounts - worker jobs - compute engine service accounts
+
+Regional Endpoints - to control dataflow works to be availble in the region - reduce latency
+Migrating MapREduce jobs to Cloud Dataflow
+
+Cloud Dataflow SQL - Apache Beam SQL - QUery is converted to SQL Transformation in the pipeline for batch or streaming data
+How to use
+- run pipelines in local to test and debug - remove DataFlowRunner from pipeline options to run locally
+- run pipelines in PROD using managed cloud resources
+
 
 ---------------
 Cloud Pub/Sub
