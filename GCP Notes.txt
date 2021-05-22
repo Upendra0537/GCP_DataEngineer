@@ -5,7 +5,7 @@ GCP
 - gsutil - command prompt
 - serverless
 - Stackdriver for monitoring the activities from logs - who,what and where - Stackdriver audit logs
-- DataEngineer - Build Pipelines
+- DataEngineer - Build Data Pipelines
 - 5 Dimension of Data
 	- Validity
 	- Accuracy
@@ -39,13 +39,6 @@ Folders - Dep1,Dep2 -> Team1, Team2
 Projects - Test, Dev
 Resources - Compute
 
-IAM - access control
-ACL - Access control List - multiple accounts
-Service Accounts creation
-Encryption keys
-Signed URL - To provide a Cloud storage URL for access and restricting the URL with respect the access time. can only be used with gsutil - No UI Console
-
-
 
 Compute
 -------------
@@ -76,7 +69,7 @@ Cloud DataProc
 	- Persistent Clusters - Persistent data cluster
 	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them 
 - On-permis - HDFS to Cloud Storage 
-- Seperate Compute from storate 
+- Seperate Compute from storage 
 	- Run hadoop jobs on Cluster with memory block size - inefficient - old way - On-permis
 	- Run Hadoop jobs on Dataproc with Data from Cloud Storage - Petabite bandwidth
 - Googles Data Center
@@ -110,7 +103,9 @@ Cloud Composer:
 	- Pull - Schedule
 - monitoring can be done using stackdriver or cloud logging
 
+----------------
 Cloud Dataflow:
+----------------
 - based on Apache Beam = Batch + stEAM
 - same code for can be used for Batch and stream processing of data 
 - new datapipeline - build for future
@@ -130,7 +125,9 @@ Cloud Dataflow:
 - Drain Feature - stops pulling the data from the source and tries to complete the dataflow with the existing data.
 - maxNumWorkers - to limit scaling 
 
-Cloud Pub/Sub 
+---------------
+Cloud Pub/Sub
+-------------- 
 - Components
 	- Publisher - publishes messages based on Topics created
 	- Subscriber - Subscribes to the Topics
@@ -165,37 +162,165 @@ gcloud pubsub subscriptions pull --auto-ack mySub1
 └─────────────┴──────────────────┴────────────┘
 gcloud pubsub subscriptions delete mySub1
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
 ---------
 DataLake - Single source of data of the organization - gets data from multiple sources in multiple formats - Datadump - Cloud Storage
 Datawarehouse - Processed data which can be used for analytics - Known data - Cloud BigQuery
-
-CLASS
-- Standard - Daily or in usage
-- Nearline - Once in a week
-- Coldline - Once in a Month
-- Archive - High retrival Cost, Low Storage cost - once in a year
-
 Cloud Storage - Buckets - files
 Cloud SQL - RDMS - single Database/Location - Supports MYSQL/POSTGRES/SQLSERVER, can be single or multiple Zone(Production)
-Cloud Spinner - RDMS - Multiple Database/across globe
-Cloud Datastore - No SQL Database
+Cloud Spanner - RDMS - Multiple Database/across globe, Horizontal scalability, high avaiability and strong consistency(breaks CAP theorm)
+Cloud Datastore/firestore - No SQL Document Database  - entity and fields, schema flexible database, realtime database with mobile SDK's, Strong consistency
 Cloud BigTable - High throughput - Sensor data, Optimized for writes
 Cloud BigQuery - DataAnalytics with ML SQL, optimized for Reads
+Cloud MemoryStore - in-memory store - Managed Redis instances
 Cloud Shell - for quering DB's
 Data Catalog - Metadata Management Services, doesnt support Datastore/BigTable
 
-Cloud Storage
+--------------  
+Cloud Storage -  AWS S3 Bucket
+--------------
  - Same zone - low latency
- - Also called as Object Storage
+ - Fully Managed Object Storage - objects stored in opaque data(0 and 1)
+ - Objects are immutable(cannot be changed)
+ - Overwrites are atomic - once the overwrite is complete then only data will be avaiable 
  - Limitation of the object size to 5T
  - version is allowed but is OFF by default
- - Class is respect to object no with respect to version
+ - Class is respect to object not with respect to version
  - Small data transfers - console, gutil
- - large data transfers - Transfer appliance(one time transfer), Transfer services(scheduled/repeatitive)
+ - large data transfers - Transfer appliance(one time transfer - 100TB or 450TB), Transfer services(Source to Sink - scheduled/repeatitive)
+ - Can trigger events when new data gets loaded to a bucket
 
+Regional - default - in different zones
+Dual-Regional - two regions - same part of the world
+Multi-Regional - all data centers - in a geographic region - US/Europe
+
+storage classes - access/availability/latency same only the cost varies
+- Standard - Daily or in usage 
+- Nearline - Once in a week - 30 days min
+- Coldline - Once in a Month - 90 days min
+- Archive - High retrival Cost, Low Storage cost - once in a year - 365 days min
+
+Operations Charges
+	- Class A Operations - Upload - expensive
+	- Class B Operations - Download
+	- Free Operations - Delete - free
+Network Charges
+	- same location access of object(egress) - free
+	- egress rates apply for other locations data transfers between GCS
+Data Retrieval Charges
+	- based on the storage class
+
+Life Cycle Rules 
+	- used for deleted or change storage class 
+	- driven by rules
+
+IAM - access control - bulk buckets
+ACL - Access control List - multiple accounts - granular level
+Signed URL - To provide a Cloud storage URL for access and restricting the URL with respect the access time. can only be used with gsutil - No UI Console
+
+
+-----------
+Cloud SQL   - AWS RDB
+----------
+- Managed Instance(not Fully)
+	- need to setup a window for upgrades
+	- 30TB limit
+
+- My SQL
+	- Primary Instance and Failover Replica in two different zones
+	- when Primary Instance failes, the failover takes the load and becomes Primary Instance and a new Failover replica gets created in a different zone - High availability
+	- Primary Instance and Read Replica in same zones
+     	- no config changes for client applications for Primary Instance  or Failover Replica
+- PostgreSQL
+	- Primary Instance and Standby Instance, data is stored in Persistance disks
+	- when Primary Instance fails, Standby Instance take up load and waits for the Primay Instance to be back online
+
+Work on Cloud SQL
+- Create a Cloud SQL Instance - create a Key
+- Create a compute engine VM - login to it, download the My SQL client app, provide the IP, Port and Key details
+- Connect to the My SQL and import the data/create tables 
+
+----------------
+Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
+---------------
+- Fully Managed No SQL database
+- No SQL Document store - horizontal scaling
+- Real time DB with mobile SDK
+- ACID Transactions - OLTP
+
+- High level structure => Collections => sub collections => documents(JSON files)
+- need unique identifier for each document
+
+Example:
+info = { name:jack} //json file
+db.collection(u'crew').document(u'jimdoc').set(info) //jimdoc is the identifier defined by user
+db.collection(u'crew').add(info.to_dict()) // system will create unique identifier
+
+--------------
+Cloud Spanner - no AWS service
+-------------
+- Managed SQL
+- Horizontally Scalable
+- high levelability 99.999%
+- distrupts CAP - Consistency, availability, Partition Tolerance - only two achievable in SQL DB
+- to achieve CAP - it sometime sacrifices Availability - 26 sec per month
+- Instance creation 
+	- Regional or multiregional
+	- Number of nodes
+ - each instance of a zone in region is replicated and equal number of nodes are present in each zone
+- 3 read/write replicas available
+- good performance if nodes have below 65% CPU utilization 
+- compute workloads in teh same region
+- google has specific Configurations -  multiple regions
+- locking read-write/read only
+
+Working on Cloud Spanner:
+- Create a Cloud Spanner Instance - region/nodes
+- open google shell script and run the python scripts to create tables and insert data
+- open google console for quering the tables. alters on the tables can't be done usign google console.
+
+-----------------
+Cloud Memorystore - AWS ElasticCache
+------------------
+- Fully Managed Redis instance
+- Instance Creation
+	- Basic tier/standard tier
+	- region
+- session storage/in memory data required
+
+
+--------------
+Cloud BigTable
+--------------- 
+ - Very High through put with very less latency
+- fixed access patterns
+- time series/Transactional/IOT
+- customized for more writes
+- No SQL database - wide column key/value data
+- Cluster based
+- Structure
+	- Based on Colossus File System to store Data - maintains 3 replicas
+	- Uses Clusters with multiple nodes to store metadata of Tablets
+	- Colossus uses TABLETS - Datastructure which contains pointers to the data
+- learning system and self optimized and self reliabilie and self redistribution of traffic- Min 300GB required
+- Fault Tolerant - if a node is lost, a new nodes come-up and only the metadata and pointers are update not the actual data as it lies is colossus
+- Data stored in Tables
+	- Rows and Columns (Column Families)
+	- Only one index - row key (Unique) 
+- converts all the searches and Sorts into Scans
+	- Construction of the row key for specific scnearios is key
+- increase in nodes have linear relation ship with number of operations can be performed
+- Visualizer with Heat map to looking for key insights on how the data is being used
+- Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
+- Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
+- cbt tool - command line for doing different operation
+- Hbase shell -  commandline for adminstrative activities - creating/deleting tables
+
+
+---------------
 Cloud BigQuery
+---------------
 	- can use SQL for quering the data 
 	- Managed Database(backup, optimization)
 - Count() only returns the number but doesn't remove the duplicates
@@ -537,28 +662,6 @@ Streaming Data processing:
 		- Access to Charts in Datastudio doesn't provide access to the underlying data
 		- if Edit access is provided to chart, access is provided to the whole table and rows from which the chart is made.
 
-
-Cloud BigTable 
- - Very High through put with very less latency
-- fixed access patterns
-- time series data
-- No SQL database
-- Cluster based
-- Structure
-	- Based on Colossus File System to store Data - maintains 3 replicas
-	- Uses Clusters with multiple nodes to store metadata of Tablets
-	- Colossus uses TABLETS - Datastructure which contains pointers to the data
-- learning system and self optimized and self reliabilie and self redistribution of traffic- Min 300GB required
-- Fault Tolerant - if a node is lost, a new nodes come-up and only the metadata and pointers are update not the actual data as it lies is colossus
-- Data stored in Tables
-	- Rows and Columns (Column Families)
-	- Only one index - row key (Unique) 
-- converts all the searches and Sorts into Scans
-	- Construction of the row key for specific scnearios is key
-- increase in nodes have linear relation ship with number of operations can be performed
-- Visualizer with Heat map to looking for key insights on how the data is being used
-- Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
-- Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
 
 
 GIS Functions
