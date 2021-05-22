@@ -106,9 +106,11 @@ Cloud Composer:
 ----------------
 Cloud Dataflow:
 ----------------
-- based on Apache Beam = Batch + stEAM
+- Fully Managed, serverless
+- based on Apache Beam = Batch + Stream
 - same code for can be used for Batch and stream processing of data 
 - new datapipeline - build for future
+- 
 - Contains - Parallel execution
 	- pCollection - immutable data - copies of data are made between transformations
 		- Unbounded pCollection - Streaming Data
@@ -128,19 +130,50 @@ Cloud Dataflow:
 ---------------
 Cloud Pub/Sub
 -------------- 
+- Pub/Sub is similar to Kafka with difference of
+	- Kafka - Unmanaged, only polling(pull) subscription,Guarantee's order of message in a partition, can manage message retention time, producers-consumers
+	- Pub/Sub - Fully Managed serverless, push and pull, no guarantee of order of messages, (10min -7 days) retention, Publishers - subscribers
 - Components
 	- Publisher - publishes messages based on Topics created
 	- Subscriber - Subscribes to the Topics
-- one to many mapping between publisher -> Topic -> Subscription -> Subscriber
+- one to many/one to one/many to one mapping between publisher -> Topic -> Subscription -> Subscriber
 - Request Types
-	- Pull - Subscribers initiaties the actions, requests messages, pub sends the message, sub acknowledges the message
-	- Push - Publisher pushes the message to Subscriber, Sub Acknowledges the message
+	- Pull - Subscribers initiaties the actions, requests messages, pub sends the message, sub acknowledges the message - default
+	- Push - Publisher pushes the message to Subscriber, Sub Acknowledges the message - Https URL with valid SSL Certificate to accept POST requests.
+- Acknowledge the message is key as the next messages from the subscriptions will be passed on until the prior message is acknowledged
+- once the message is recieved and acknowledges the message doesnt exist in the topics - default(can make them retain by setting retain ack message to true)
+- Pub/Sub guarantee's atlest one message to every subscriber
+- Message created in a topic before subscription creation, subscriber will not deliver prior messages.
+- Messages created in a topic without any subscriptions will not have a destination.
+- Subscription retention period without activity - 31 days - 365 days or no expiry
 - Message are sent to Subscriber for if there is delay with acknowledgement time.
+- Seek Feature - once messages are retained in Topic, we can use seek feature to go to a point of time(backforward/forward) for the subscriber to retrieve all the messages
+- snapshot allowed in topic
+- Stackdriver logging for checking the health of the pub/sub
 - Issues
-	- Messages can arrive not in order of the event
+	- Messages can arrive not in order of the event - use alternative transformations by adding timestamp to the metadata of the message and order them
 	- Duplication of message expected
 	- Publisher stores for only 7 days.
 	- each message has a limitation of 10MB and stored in binary order
+- Usecases
+	- Distributing Workloads 
+	- Asynchronous Workflows
+	- Distributing Event Notifications
+	- Distributed logging
+	- Device Data Streaming
+- IAM - grant access to specific topics and subscriptions
+- Used for loosly coupling the systems.
+
+How to use
+- Create a Topic in Cloud Pub/Sub
+- Create a Subscription to the topic created
+- Publish a message to the Topic.
+- Pull the message from the Published and Acknowledge it so that the Topic is now empty.
+
+Samples:
+cloudstorage notifications - pub/sub - cloud function - cloudstorage
+cloudstorage - pub/sub - dataflow - bigquery
+
 Commands
 
 gcloud pubsub topics create sandiego
@@ -161,6 +194,9 @@ gcloud pubsub subscriptions pull --auto-ack mySub1
 │ hello again │ 2201516210054304 │            │
 └─────────────┴──────────────────┴────────────┘
 gcloud pubsub subscriptions delete mySub1
+gcloud pubsub topics delete sandiego
+
+gcloud pubsub topics list
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
