@@ -478,16 +478,18 @@ Cloud BigQuery
 - Cloud Dataprep - to get insights on the data
 - Normalization(multiple tables to reduce duplication of data) is for RDMS but for BigQuery - Single table as you can have Arrays for columns and STRUCTs (column families) datatype - record
 - Follows De-Normalization Process by combining multiple table data into a single table using Structs
-- Nested and repeated Data
+- Capacitor Storage  System - Nested and repeated Data - Columns are store seperately and each cell is stored as (values,  repetition level, definition level)
 - get granular data from ARRAYs when you need it but not be punished if you don't (BigQuery stores each column individually on disk)
 Sample:  Repeat (Datatype)
 1	1234-1	start		01-01-2021
 		inprogress	
 		complete
 
-Event - Record (Mode) 
+Event - Record (Mode) - STRUCT 
 	Event.start	- Timestamp 
 	Event.end	- Timestamp
+ - Import Supported formations - csv/JSON(every records is new line delimited)/Avro(compressed data)/Parquet(encoding small files)/ORC(Optimized Row Columniar - Hive Data)/ Cloud Datastore Export/Cloud Firestore Exports 
+Data Transfer service - to get data from Google products/AWS/GCP/socialMedia connectors
 
 Struct Sample:
 #standardSQL
@@ -501,28 +503,62 @@ FROM racing.race_results AS r, UNNEST(r.participants) AS p
 - Unnested is used to extract the data from a Record Mode so as to flatten the data.
 	You need to UNNEST() arrays to bring the array elements back into rows
 	UNNEST() always follows the table name in your FROM clause (think of it conceptually like a pre-joined table)
-- Slots - unit of computation Power 
+- Slots - unit of computation Power - number of slots determined by query size and complexity, used for pricing, fixed pricing available(i.e. x number of slots for y timeperiod)
 - Project.dataset.table - bigquery structure
 	- Dataset - Similar to Database
 		- Native tables - data in teh BQ
-		- Enternal Tables - data resides outsite BQ but Schema is present in BQ
-		- View 
+		- Enternal Tables - data resides outsite BQ but Schema is present in BQ - Cloud Storage/Cloud BigTable/Google Drive - data lies outside the BQ
+		- View(virtual table) - Created by SQL Queries to data in tables and stored in tables of Dataset. They can be queried with SQL. Everytime a SQL query runs on 				view, the underlying queries run for data 
+			- control Access to data
+			- reduce query complexity
+			- Constructing logical tables
+			- cannot export data from view
+			- no wild card references
+			- only 1000 view allowed per dataset
 - authentication with IAM - at dataset level
 - to give authentication at record level  - create view on the table and provide required access to view.
 - Views cannot be exported.
 - Optimized for read not good for updates(use BigTable)
 - Big Data Transfer Service  -  EL , ELT, ETL
 - Partitioning - Save query time
-	- Defining Partition on a date related column 
+	- Defining Partition on a date/timestamp related column 
 	- can also have the flexibility to expire the data 
 	- all_sessions_raw_(N) - number of tables partitioned by date
 	- Sample with wildcard SELECT * FROM `ecommerce.sales_by_sku_2017*`
 	- only 4000 partitions allowed
-- Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency
+- Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency - only supported via partitioning
 	- Defining multiple columns are clusters
 	- Order of the columns is critical.
 	- Bigquery internally Clusters data automatically
 	- no limitation on number of clusters in a table
+Sample: CREATE TABLE 'mydataset.mytable' PARTITIONED BY DATE(timestamp) CLUSTERED BY customer_id,product_id
+
+Best Practices
+	- Controlled Cost
+		- No Select *
+		- Use Preview - not cost for preview
+		- Limits doesnt help - as all the data is processed to limit the data
+		- Streaming inserts costly
+		- Use Partitions by date
+	- Query Performance
+		- Input Data/Data Source
+			- Denormalizations
+			- less use of wild card tables
+			- avoid external sources
+		- Shuffling
+		- Query Computation
+			- No repeated transformation of data
+			- Optimize joines
+			- Optimize query performance
+		- Materialisation
+		- SQL Antipatterns
+			- Self Joins/unbalanced joins
+			- Data Skewing
+			- avoid update/insert of single rows
+	- Optimising Storage
+		- expiration settings
+		- long term storage advantages
+
 - If a query is run, the result is generally cache for 24 hrs, If we run the same query there will not be any processing done and query time = 0 Sec
 - Compatable with backward filling - filling any missed values which arrive late
 - Lineage - To track the source, process and destination of the data - Metadata of the data 
