@@ -63,11 +63,22 @@ Compute Engine:
 	SSD - has faster IOP
 	increase of storage space - increases the IOP
 
+---------------
 Cloud DataProc
-- to Apachi Spark or Hadoop jobs 
-- Uses
+--------------
+- Managed Cluster service
+- to submit existing Apachi Spark or Hadoop jobs  - ease of scaling, connector to GCS rather than hdfs, other connectors for analytics BQ
+- take care of setting up VM, softwares it requires, setting up Master Node(name node) and worker Node(data node) with other hadoop softwares 
+- billed per usage per second with min of 1 minute
+- region - regional - global(not regional)
+- Cluster choice
+	- Single Node cluster - 1 - master and worker nodes in a single machine
+	- Standard Cluster- 1- master node(Yarn Resource Manager), multiple worker nodes(Yarn Node Manager+HDFS) - can add preemtible cluster(no HDFS) for more resource
+	- High Availability Cluster - 3 Masters, multiple worker nodes
+- Clusters	
 	- Persistent Clusters - Persistent data cluster
 	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them 
+- Stack driver loggering - for monitoring the health
 - On-permis - HDFS to Cloud Storage 
 - Seperate Compute from storage 
 	- Run hadoop jobs on Cluster with memory block size - inefficient - old way - On-permis
@@ -77,9 +88,18 @@ Cloud DataProc
 	- Network - Jupiter
 - local HDFS is better if it is small chuncks of data, lot many change in the data.
 - Cloud Storage for input and output.
-- Autoscaling is reactive - based on cluster utilization.
+- Autoscaling is reactive - based on cluster utilization - configured using yaml file
+- Should not use autoscaling when cluster choice - high availability cluster, HDFS,streaming 
 - Cloud DataProc workflow templates for scheduling the jobs
 - Support MapReduce,Spark,Hive,Pig
+- Cloud Storage Connector - for data rather than HDFS and preemptable cluster can be used 
+- Other connectors - BigTable, BigQuery, GCS, Stackdriver Logging and Monitoring
+
+How to use
+- Data proc - create cluster - region/cluster choice
+	 -  jobs - submit job - type of language, main class, arguments, jar file
+- job logs persist even if the cluster is deleted
+
 
 Cloud Data Fusion:
 - to create visual data pipelines
