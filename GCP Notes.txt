@@ -468,6 +468,8 @@ for Time series scenarios
 ---------------
 Cloud BigQuery
 ---------------
+- Petabyte scale, serverless, highlyscalable enterprise datawarehouse
+- In-memory BI Engine  - for dashboards
 	- can use SQL for quering the data 
 	- Managed Database(backup, optimization)
 - Count() only returns the number but doesn't remove the duplicates
@@ -502,6 +504,9 @@ FROM racing.race_results AS r, UNNEST(r.participants) AS p
 - Slots - unit of computation Power 
 - Project.dataset.table - bigquery structure
 	- Dataset - Similar to Database
+		- Native tables - data in teh BQ
+		- Enternal Tables - data resides outsite BQ but Schema is present in BQ
+		- View 
 - authentication with IAM - at dataset level
 - to give authentication at record level  - create view on the table and provide required access to view.
 - Views cannot be exported.
