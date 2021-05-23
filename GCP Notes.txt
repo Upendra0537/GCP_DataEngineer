@@ -508,16 +508,25 @@ FROM racing.race_results AS r, UNNEST(r.participants) AS p
 	- Dataset - Similar to Database
 		- Native tables - data in teh BQ
 		- Enternal Tables - data resides outsite BQ but Schema is present in BQ - Cloud Storage/Cloud BigTable/Google Drive - data lies outside the BQ
+			Federated Datasource for bigquery - BigTable/Cloud Storage/Cloud SQL/Google Drive/ not Datastore
 		- View(virtual table) - Created by SQL Queries to data in tables and stored in tables of Dataset. They can be queried with SQL. Everytime a SQL query runs on 				view, the underlying queries run for data 
 			- control Access to data
 			- reduce query complexity
 			- Constructing logical tables
+			- No Cache of data
 			- cannot export data from view
 			- no wild card references
 			- only 1000 view allowed per dataset
-- authentication with IAM - at dataset level
-- to give authentication at record level  - create view on the table and provide required access to view.
-- Views cannot be exported.
+-IAM
+	- authentication with IAM - at dataset level
+	- to give authentication at record level  - create view on the table and provide required access to view.
+	- Cloud DLP - Cloud Data Loss Preventive - to identify Sensitive information and de-identify them by masking,tokenizing, data shifting
+	- Data is encrypted by DEK(Data Encryption Key) which is encrypted by Wrapped DEK which is genered by KEK(Key Encryption Key) stored in Cloud Key management service
+		-Wrapped DEK and Encrypted data are stored in Big query
+
+BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams) 
+	- Cloud Audit logs - BigQueryAuditMetadata
+
 - Optimized for read not good for updates(use BigTable)
 - Big Data Transfer Service  -  EL , ELT, ETL
 - Partitioning - Save query time
@@ -559,7 +568,16 @@ Best Practices
 		- expiration settings
 		- long term storage advantages
 
-- If a query is run, the result is generally cache for 24 hrs, If we run the same query there will not be any processing done and query time = 0 Sec
+BigQuery ML
+   Supports ML models
+	- Linear Regression
+	- Binary Logistic Regression
+	- Multi Class Regression
+	- K-means clustering
+   - Use SQL to train and evaluate
+   - Prepare data -> Train -> evaluate -> Predit
+
+- If a query is run, the result is generally cache for 24 hrs in a temporary cache table, If we run the same query there will not be any processing done and query time = 0 Sec
 - Compatable with backward filling - filling any missed values which arrive late
 - Lineage - To track the source, process and destination of the data - Metadata of the data 
 	- Labels can be used for tracking - Key: Value pairs
@@ -624,16 +642,6 @@ There are two ways to overcome stale data in reporting tables:
 
 maxBadRecords - used to set X% of invalid data allowed
 
-Low Cost - use data preview/Dry run - no charge
-	- using Limit clause - no impact to charge
-
-Federated Datasource for bigquery
-	- BigTable
-	- Cloud Storage
-	- Cloud SQL
-	- Google Drive
-	- not Datastore
-	
 #standardSQL
 CREATE OR REPLACE VIEW ecommerce.vw_latest_transactions
 OPTIONS(
