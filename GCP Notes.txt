@@ -392,7 +392,9 @@ Cloud BigTable - HBase model
 - fixed access patterns
 - time series/Transactional/IOT
 - customized for more writes
-- Cluster based
+- BigTable not suitable - data < 300GB or short lived data
+- replication - improve row though put but not write.
+- write data into the bigtable in batch of near by row-keys
 - splitting, merging and rebalancing happen automatically
 - Structure
 	- Based on Colossus File System to store Data - maintains 3 replicas
@@ -406,13 +408,63 @@ Cloud BigTable - HBase model
 - converts all the searches and Sorts into Scans
 	- Construction of the row key for specific scnearios is key
 - increase in nodes have linear relation ship with number of operations can be performed
-- Visualizer with Heat map to looking for key insights on how the data is being used
+- Auto-rebalacing of tablets across the nodes will help to get more processing done 
+- Visualizer with Heat map to looking for key insights on how the data is being used and for hot spots so that only one node/cluster is not stress much
 - Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
 - Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
-- cbt tool - command line for doing different operation
-- Hbase shell -  commandline for adminstrative activities - creating/deleting tables
+- BigTable is created by instance (supports 1000 tables)
+	- instance type - production(1 or more cluster - with 3 nodes)/development(single node cluster)
+	- Storage Type - SDD(each node process 2.5TB of data)- always preferred /HDD( 8TB of data per node)
+	- App Profile - custom application for connections - single Cluster routing(strong consistency) /multiple Cluster routines
+	- Clusters(max 4) - contains nodes
+	- Colossus - contains tablets - each node works on the tablet, no two nodes can use a single tablet.
+can be accessed by
+	- cbt tool - command line for doing different operation 
+		- .cbtrc files is required with project and instance details
+		- list of instances => cbt listinstances
+		- list of cluster => cbt listclusters
+		- list of tables => cbt ls
+		- list of columns => cbt ls Vechiles
+		- retrieve data => cbt read Vechiles
+		- create tbale => cbt creatable fires
+		- create column families => cbt createfamily fires fwi
+	- Hbase shell -  commandline for adminstrative activities - creating/deleting tables -put to insert the data - scan for retreving data 
+		- run the quickstart file from google to start the Hbase shell prompt
+		- create table => create 'Vechiles', 'loc','det'
+		- list table => list
+		- description => describe 'Vechiles'
+		- Insert data => put ' Vechiles' ,'M111-45','loc:lat','40.1232'
+		- retrieve data on key => get 'Vechiles' , 'M111-45'
+		- retrieve data => scan 'Vechiles'
+				=> scan 'Vechiles' , {COLUMNS => 'det:route', FILTER => "ValueFilter(=,'regexstring:88)"}
+				=> scan 'Vechiles',{ROWPREFIXFILER => 'M111-2',COLUMNS =>'loc:lat'}
+		
+		
+IAM - at project or instance level
+Data Storage model
+	- Contains row-keys - only one index allowed in bigtables
+	- Contains column Families(max 100 colum families per table)
+	- each cell contains a timestamp and can store history based on timestamp
+   - operations only by row 
+   - sparse table system - empty column cells wont waste space in the table
+   - cell limitation - 10MB with history
+   - row limitation - 100MB
+   - garbage collection feature to remove data based on rules
 
-
+how to design row-key (avoid hotspots in cluster)
+	- think of all the questions you can ask the database
+	- field promotion - moving the known or common data into the row key for better querying.
+	- the row keys are sorted lexicographically
+	- salting
+	- samples 
+		-Good -  reverse domain names/String Identifier
+		- Bad - sequence Numbers, Timestamp at the start of the row-key 
+for Time series scenarios
+	- tall and narrow tables
+	- use new rows rather than version
+	- logically seperate tables
+	- lot many proven schemas available for creating a db
+	
 ---------------
 Cloud BigQuery
 ---------------
