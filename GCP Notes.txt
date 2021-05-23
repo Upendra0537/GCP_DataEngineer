@@ -384,14 +384,16 @@ Cloud Memorystore - AWS ElasticCache
 
 
 --------------
-Cloud BigTable
+Cloud BigTable - HBase model
 --------------- 
- - Very High through put with very less latency
+- Managed wide column - no SQL Database - key/value
+- Very High through put with very less latency and high availability
+- 10,000 read/write per node
 - fixed access patterns
 - time series/Transactional/IOT
 - customized for more writes
-- No SQL database - wide column key/value data
 - Cluster based
+- splitting, merging and rebalancing happen automatically
 - Structure
 	- Based on Colossus File System to store Data - maintains 3 replicas
 	- Uses Clusters with multiple nodes to store metadata of Tablets
