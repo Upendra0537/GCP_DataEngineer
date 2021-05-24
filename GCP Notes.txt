@@ -745,7 +745,7 @@ ML Framework
 		- Cloud DataProc
 		- Compute Engine		
 	- Build Custom Model (Code Less) - bring your data - reusable Models
-		- Cloud AutoML  - transfer learning - 
+		- Cloud AutoML  - transfer learning - using a already trained model for a different usecase to predict a new label with less training data and new feature values 
 			- AutoML Vision
 			- AutoML Video Intelligence
 			- AutoML Natural Language
@@ -773,20 +773,31 @@ NLP
 	- Score -1 to +1
 	- Magnitude = 0 to infinity
 
-Methods used to overcome overfitting
+Methods used to overcome overfitting(fitting of the model so well that the existing label are predicted correctly with the feature but failes to predict unseen data)
  - Data Augmentation - generate more data for training(rotating/flipping) - reduces overfitting and high accuracy in training
  - Regularization
-	L1 Regularization - give weights as zero for not important feature, simple
-	L2 Regularization - decays the weights towards zero but not zero, complex
- - DropOut - ignore few subset of the units based on probability 
+	L1 Regularization - give weights as zero for not important feature, simple - modulus of the weights
+	L2 Regularization - decays the weights towards zero but not zero, complex - sum of the squares of the weights
+ - DropOut layer - in neural networks where weights are occusionally set to zero 
  - Reduce size of Network - remove layer/units
  - Hold-out - 80-20 principle of Training vs testing data
- - cross validation - K groups, 1 group for testing, all remaining groups for training.. repeat process untill all the K groups are covered
+ - cross validation - K smaller groups(folds) -  1 fold for testing, all k-1 folds for training.. repeat process untill all the K folds are covered
  - feature selection
- - early stop - based on loss graph
+ - early stop - based on loss graph - stop training the model after few iterations. Dont train the model with high number of iterations which leads to overfitting
 
 Methods use to overcome underfitting
 
+
+Hyperparameters - values which needs to specified before training the model
+	- Model Hyperparameters - relates directly to the model selected  -   Number of Hidden Layers
+	- Algorithm Hyperparameters - relates to training the model - Batch Size, Training Epochs(iterations), Regularization, Learning Rate
+	
+Feature Engineering
+ - Ignore
+ - Remove
+ - Impute
+ - Missing Values 
+ 	- 
 
 AI Platform - cloud Notebooks
 - for sharing notebooks 
@@ -802,12 +813,12 @@ BigQuery ML
 - Feature info - ML.Feature_info
 - Models
 	- Supervised - labeled data
-		- Classification
+		- Classification - specific class in which label suits with probability
 			- linear
 			- logistic
 			- dnn_classifier
 			- boosted_tree_classifier
-		- Regression
+		- Regression - speicific label values
 			- linear_
 			- Logistic_reg
 			- dnn_regressor
@@ -817,7 +828,8 @@ BigQuery ML
 			- matrix_factorization
 	- UnSupervised - unlabeled data - clusters
 		- kmeans
-
+	- Reinforcemen Learning - Contains agents and environemnts, based on a state at a particular points the agent proposes an action and agent is rewarded(+/-) for the action - used in AlphaGo/Chess 
+	
 Model evaluation parameters
 - Classification Problem - Confusion matrix, precision, recall, accuracy
 - Regression Problem - MAE(Mean Absolute Error) ,MSE(Mean Square Error),RMSE(Root Mean Square Error)
