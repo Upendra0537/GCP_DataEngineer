@@ -857,6 +857,29 @@ Streaming Data processing:
 	- DataStudio is used to do visual representation of data.
 		- Access to Charts in Datastudio doesn't provide access to the underlying data
 		- if Edit access is provided to chart, access is provided to the whole table and rows from which the chart is made.
+----------
+DataLab - Jupyter notebook
+--------
+- Creation of VM with Jupyter notebook attached with Persistant disks
+- Jupiter notes can be shared easily and stored in Google Cloud Source repository.
+- Runs on Python Kernal with in the VM
+- can connect to differnt GCP products to display the data.
+
+
+----------
+DataStudio
+----------
+- helps to generate reports(detailed level) and Dashboards(KPI's and highlevel)
+	- both contains charts and tables
+- Charts
+	- Tables
+	- Scorecards - highlevel numbers - KPI's
+	- Pie Chart - with % , suitable for less categories
+	- Time Series Graphs - X axis - time - trends
+	- Bar Chart - discreate numbers
+	- Geographical Maps - region trends
+	- Area Charts - Cumilative numbers on time series
+	- Scatter Plot - size,color of the plot
 
 
 
