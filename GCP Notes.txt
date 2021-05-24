@@ -708,9 +708,9 @@ ORDER BY date
 ML
 ----------
 
-Artificial Intelligence - Discipine(Like Physics)
+Artificial Intelligence - Discipine(Like Physics) - Narrow AI(specific task - Chess) / General AI (broader activites - humans)
 	- Machince Learning - one alternative (Like Newton's law)
-		- Deep Learning
+		- Deep Learning - nueral networks(brain)
 
 ML Activities
 - Ingest Data (Transfer Services/CloudStorage)
@@ -733,26 +733,36 @@ ML Framework
 	- Tensor Flow
 	- AI Platform
 - Models
-	- Build a Custom Model
+	- Build a Custom Model - need more data
 		- Cloud TPU's
 		- Kubernetes Engine
 		- Cloud AI Plaftform
+			- TensorFlow
+			- TensorFlow Extended
+			- TPU
+			- Kubeflow - to build Machine learning pipelines
 		- Big Query ML
 		- Cloud DataProc
 		- Compute Engine		
-	- Build Custom Model (Code Less) - bring your data
-		- Cloud AutoML 
+	- Build Custom Model (Code Less) - bring your data - reusable Models
+		- Cloud AutoML  - transfer learning - 
+			- AutoML Vision
+			- AutoML Video Intelligence
+			- AutoML Natural Language
+			- AutoML Natural translation
+			- AutoML Tables
 		- Cloud API Hub
-	- Pre-trained ML Model
-		- Cloud Vision API
-		- Cloud Speech API
+	- Pre-trained ML Model - 
+		- Cloud Vision API - identify objects
 		- Cloud Jobs API
-		- Cloud Translation API
-		- Cloud Natural Language API
-		- Cloud Video Intelligence API
+		- Cloud Translation API - identify languages
+		- Cloud Natural Language API - Sentiment Analysis/Counting classification/entity analysis
+		- Cloud Video Intelligence API - identify places/objects
 		- Cloud Data Loss Prevention API
 		- Cloud Speech Synthesis API
 		- Cloud Dialogflow
+		- Cloud Text-to-Speech API
+		- Cloud Speech-to-Text API
 
 - Training Data -> Auto ML -> Predication with REST API
 
