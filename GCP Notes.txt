@@ -1,4 +1,4 @@
-GCP
+Google Cloud Profession - Data Engineering
 
 - Compute and store are seperated for better resource utilization
 - Speed of transfer of data between compute and store - Petabyte bisectional bandwidth
@@ -791,13 +791,21 @@ Methods use to overcome underfitting
 Hyperparameters - values which needs to specified before training the model
 	- Model Hyperparameters - relates directly to the model selected  -   Number of Hidden Layers
 	- Algorithm Hyperparameters - relates to training the model - Batch Size, Training Epochs(iterations), Regularization, Learning Rate
-	
-Feature Engineering
- - Ignore
- - Remove
- - Impute
+
+Data Preparation
+ - Dataset Construction
+ - Feature Engineering
+ - Missing data - Ignore/Remove/Impute(Mean or Median/Fixed Constant/Most Frequent values/K-Neighbour/DeepLearning)
  - Missing Values 
- 	- 
+ 	- Missing Completely at Random(MCAR)
+	- Missing at Random(MAR)
+	- Not Missing at Random(NMAR)
+ - Outliners and clipping 
+ - One hot Encoding - convert classification data into numberic data for Machine learning
+ - Linear Scaling - Transform from bigger range(0-255) to smallar range(0-1)
+ - Z-Score - Structure of the data doesn't change but values are moved to O origin
+ - LogScaling - small number has many points and vast majority have few points - convering to log(x)
+ - Bucketing - moving continous data to discreate data by spliting the data into ranges and selecting a point in each range
 
 AI Platform - cloud Notebooks
 - for sharing notebooks 
