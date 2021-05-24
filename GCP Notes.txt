@@ -838,12 +838,35 @@ BigQuery ML
 		- kmeans
 	- Reinforcemen Learning - Contains agents and environemnts, based on a state at a particular points the agent proposes an action and agent is rewarded(+/-) for the action - used in AlphaGo/Chess 
 	
+TensorFlow
+ - Google Opensource end-to-end ML Platform
+ - TensorFlow Lite - Mobile/embedded devices
+ - TensorFlow.JS - for browser application
+ - TensorFlow Extended- for ML Pipelines
+	
+Keras
+- Open source neural network libraries - written in Python
+- High level API for fast experimentation which runs on top of the existing Machine learning frameworks
+-tf.kernas - Tensorflow supports keras
+
+Google Colab
+- jupiter notebooks with pre existing python libraries
+
+Feedforward Neural Network - input- hidden layer - output layer
+Recurrent Neural Network(RNN) - Directed cycles - weather forcase model - Time series problem
+Convolution Neural Network - Visual learning task/Natural language process - have a convolution layer in the hiddern layers 
+	-Pooling Layer - downsamples input - take 2*2 matrix
+		- average pooling - Calculate average 
+		- Max pooling - maxium value
+Generative Adversarial Networks(GANs) - create images/poet/deepfakes
+	- Generator network
+	- Discriminator network
+
+
 Model evaluation parameters
 - Classification Problem - Confusion matrix, precision, recall, accuracy
 - Regression Problem - MAE(Mean Absolute Error) ,MSE(Mean Square Error),RMSE(Root Mean Square Error)
 
-RNN - Recurrent Neural Network - weather forcase model - Time series problem
-CNN - Convolution Neural Network
 
 Example:
 
