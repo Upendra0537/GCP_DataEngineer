@@ -110,9 +110,21 @@ Cloud Data Fusion:
 - Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
 -Lineage of data - transformations which happened on each field of data from source to destination
 
+---------------
 Cloud Composer:
-- orchestrator built on open source Apache Air Flow to streamline multiple activites.
-- Need to create an environment
+---------------
+- Fully Managed Workflow orchestrator built on open source Apache Air Flow to streamline multiple activites.(No vendor lock-in)
+- Apache airflow works on DAG and each DAG Contains operators, Cloud Composer manages the resources it need
+- Need to create an environment in a GCP Project which contains
+	- Cloud Compose environment
+	- Kubernities(GKE Cluster)
+		- Redis
+		- Scheduler
+		- worker nodes(min 3)		
+	- Pub/Sub - need manually delete after done
+	- CloudStorage - to store the DAGS - need to manually delete after done
+	- connects to tenet project of google
+	- Airflow parameter and Environment variables
 - Each of the block of operations are created in DAG(Direct Acyclic Graph) - takes input and outputs but cannot trigger itself
 	- a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
 	- written in Python language and placed in DAG folder
