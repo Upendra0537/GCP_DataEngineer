@@ -812,6 +812,34 @@ Speaker Diarization - interpret multiple speaker in the same audio
 Text-to-Speech API
 - Speech Synthesis Markup Language(SSML) - adding pauses/sounds in the output speech
 
+------------
+AutoML API - APIs and Services
+------------
+- Suit of ML products
+- can custom ML models 
+- incorporates human labeling service for accurate prediction - label data
+- Graphical UI for training/evaluating/predict
+- ML Problem is shared with AutoML - Google Neural Network searches for a prefered Model and uses it with transfer learning
+
+Categories
+	- Sight with AutoML
+		Process
+			- Prepare and Manage Images - label data
+			- Training Models 
+			- Evaludating Model - Metrics - area under the precision/recall curve, Confidence Threshold curve, confusion matrix
+			- Deploy Model - for predictions
+			- Making Predictions
+			- Undeploying Model
+		- Auto ML Vision Edge - Export Custom trained model to devices
+		- Object Localization feature to detect multiple objects
+	- Language with AutoML - to solve domain specific language problems
+		- AutoML Natural Language
+		- AutoML Translation
+	- Structured Data with AutoML
+		- AutoML Tables
+			- Data Support
+			- Automatic Feature Engineering
+			- Model Training - parallel testing with different model
 
 ------------
 BigQuery ML
@@ -851,7 +879,7 @@ BigQuery ML
 	- can be packaged with dependencies and can run on any cloud provider
 	- provides visual flow the actvitives
 	
-AutoML API - APIs and Services
+
 AI Hub - for collaboration of Machine learning models 
 
 
