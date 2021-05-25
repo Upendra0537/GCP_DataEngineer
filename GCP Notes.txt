@@ -767,7 +767,7 @@ Vision API
 	- Asynchronous Mode
 - Operations
 	- Optical Character Recognition(OCR) - Image Text Detection/Document Text Detection
-	- Face Detection 
+	- Face Detection - Positions of the features of the face (eg. eyes and noise), likelihood of certain emotions, likelihood of headwear
 	- Image Property Detection
 	- Label Detection
 	- Landmark detection - name, log/lat 
@@ -793,7 +793,7 @@ Translaction API
 - Phrase based machine translation model (PBMT)
 
 Natural Language API
-- Sentiment Analysis - score(-1 to +1), Magnitude - emotional content(0 to infinity)
+- Sentiment Analysis - 'score' represents an overall emotional leaning of a test from -1.0 (negative) to 1.0 (positive), and 'magnitude' indicates the overall strength of emotion. 'magnitude' is not normalized so longer text blocks may have greater magnitudes.
 - Entity analysis - nouns/things, salience - importance of the entity
 - syntax analysis
 - entity-sentiment analysis
@@ -804,6 +804,13 @@ DialogFlow API
 - intent - Classification 
 
 Speech-to-text API
+- Synchronous Recognition - returns text after all the input is processed. smaller audio
+- Asynchronous Recognition - Poll for the results
+- Streaming Recongnition - results are produced while streaming
+Speaker Diarization - interpret multiple speaker in the same audio
+
+Text-to-Speech API
+- Speech Synthesis Markup Language(SSML) - adding pauses/sounds in the output speech
 
 
 ------------
