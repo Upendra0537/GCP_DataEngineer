@@ -34,11 +34,27 @@ Level-3 - Big Data and ML Products
 
 
 GCP Structure
-Organization - TCS
-Folders - Dep1,Dep2 -> Team1, Team2
-Projects - Test, Dev
-Resources - Compute
+	Organization - TCS
+		Folders - Dep1,Dep2 -> Team1, Team2
+			Projects - Test, Dev
+				Resources - Compute
 
+
+Security
+----------
+Regualtion Compliance - HIPAA
+Data security and Privacy
+Shared Responsibilty Model
+	- Platform Security Features
+	- Google InfoSec Team
+	- Customer Folliwng Best Practices - IAM roles
+	- Principle of Least previlages - IAM roles
+	- Always be watching - logs 
+
+IAM
+	- 
+	
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 Compute
 -------------
@@ -871,6 +887,46 @@ BigQuery ML
 	- Reinforcemen Learning - Contains agents and environemnts, based on a state at a particular points the agent proposes an action and agent is rewarded(+/-) for the action - used in AlphaGo/Chess 
 	
 	
+	
+----------
+Kubeflow
+---------
+- ML Toolkit for Kubernetes - to operationalize ML Models by
+	- Experimenting in Jupyter Notebooks
+	- Training by TensorFlow
+	- Model serving and monitoring
+- Phases
+	- Experimental Phase
+		- Problem + Data - Kubeflow pipeline
+		- ML Algorithm - Kubeflow (PyTorch/scikit-learn/tensorflow)
+		- Experiment - Kubeflow(Jupyter/fairing(for deploying jupyter notebooks))
+		- Tune Hyperparameters - Kubeflow katlib
+	- Production Phase
+		- Transform Data - Kubeflow pipeline
+		- Train Model - Kubeflow MPI,PyTorch
+		- Serve Model - TFServing,KFserving
+		- Monitor -Kubeflow TensorBoard, Metadata
+
+-----------
+AI Platform
+-----------
+- cloud Notebooks
+	- for sharing notebooks 
+	- Maggic Functions - %%bigquery
+- Overview
+	- Ingest data - GCS or GCS Transfer service
+	- Prepare - Dataflow/Dataproc/BigQuery/Dataprep
+	- Preprocess - same as above
+	- Discover - AI Hub
+	- Develop - Deep Learning VM, AI Plaftform Jupyter notebooks, AI Platform Training, Kubeflow	
+	- Train 
+	- Test - TensorFlow Extended,AI Platform Prediction, Kubeflow
+	- Deploy
+	
+
+		
+		
+	
 - Training Data -> Auto ML -> Predication with REST API
 
 
@@ -891,9 +947,7 @@ ML Framework
 	- AI Platform
 
 
-AI Platform - cloud Notebooks
-- for sharing notebooks 
-- Maggic Functions - %%bigquery
+
 
 
 	
@@ -969,6 +1023,12 @@ Model evaluation parameters
 - Classification Problem - Confusion matrix, precision, recall, accuracy
 - Regression Problem - MAE(Mean Absolute Error) ,MSE(Mean Square Error),RMSE(Root Mean Square Error)
 
+ML Operationalizing 
+- Deployment - same pipeline for test and PROD
+- Scoring - standard framework - Predictive Model Markup Language(PMML)/Open Neural Network Exchange(ONNX)
+- Logging - input request,output response, Model version and data validation error, response time
+- Monitoring - Processing/predictive performance
+- Retraining - Data drift/concept drift
 
 Example:
 
