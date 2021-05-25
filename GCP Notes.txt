@@ -721,17 +721,6 @@ ML Activities
 					- Train(AI Platform Training/Kubeflow- onpermise)
 						- Test&Analysis(TFX Tools)
 							- Deploy(AI Platform Predication/Kuberflow-onpremise)
-- Kubeflow 
-	- Google Opensource ML Pipeline framework
-	- can be packaged with dependencies and can run on any cloud provider
-	- provides visual flow the actvitives
-AutoML API - APIs and Services
-Vision - Imports -> Train -> Evaluate -> Validate
-	- Need labled data
-
-ML Framework
-	- Tensor Flow
-	- AI Platform
 - Models
 	- Build a Custom Model - need more data
 		- Cloud TPU's
@@ -752,20 +741,144 @@ ML Framework
 			- AutoML Natural translation
 			- AutoML Tables
 		- Cloud API Hub
-	- Pre-trained ML Model - 
-		- Cloud Vision API - identify objects
+	- Pre-trained ML Model - AI Building Blocks
+		- Sight
+			- Cloud Vision API - identify objects
+			- Cloud Video Intelligence API - identify places/objects
+		- Language
+			- Cloud Translation API - identify languages
+			- Cloud Natural Language API - Sentiment Analysis/Counting classification/entity analysis
+		- Conversation 
+			- Cloud Dialogflow
+			- Cloud Text-to-Speech API
+			- Cloud Speech-to-Text API
+		- Structured Data
+			- AutoML Table
+			- Cloud Inference API
+			- Clound Recommendations API
 		- Cloud Jobs API
-		- Cloud Translation API - identify languages
-		- Cloud Natural Language API - Sentiment Analysis/Counting classification/entity analysis
-		- Cloud Video Intelligence API - identify places/objects
 		- Cloud Data Loss Prevention API
 		- Cloud Speech Synthesis API
-		- Cloud Dialogflow
-		- Cloud Text-to-Speech API
-		- Cloud Speech-to-Text API
 
+
+Vision API
+- Modes
+	- Synchronous Mode
+	- Asynchronous Mode
+- Operations
+	- Optical Character Recognition(OCR) - Image Text Detection/Document Text Detection
+	- Face Detection 
+	- Image Property Detection
+	- Label Detection
+	- Landmark detection - name, log/lat 
+	- logo detection -  retail sector	
+	- Explicit Content Detection -  Adult/spoof/medical/violance/racy
+	- Web Entity/page detection
+
+Video API
+- Operations
+	- Detect labels
+	- Detect Text
+	- Detect Explicit content
+	- shot change detection
+	- Track objects
+	- Transcribe speech
+ - Google Knowledge Graph search API (MID - Machine unique Id)
+ 	- Getting a ranked list of the most notable entities that match criteria
+	- Predictively Completing  entities within a search box
+	- annotating or orgranizing content using knowledge graph  entities
+
+Translaction API
+- Neural Machine Translation Model(NMT)
+- Phrase based machine translation model (PBMT)
+
+Natural Language API
+- Sentiment Analysis - score(-1 to +1), Magnitude - emotional content(0 to infinity)
+- Entity analysis - nouns/things, salience - importance of the entity
+- syntax analysis
+- entity-sentiment analysis
+- content classification
+
+DialogFlow API
+- bots
+- intent - Classification 
+
+Speech-to-text API
+
+
+------------
+BigQuery ML
+------------
+- Ingest - ML.Weights(inspect)
+	- Train - ML.TrainingInfo
+		- Evaluate - ML.Evaluate
+			- Predict - ML.Predict
+- Transform - keyword used in transformations to the raw data before training it and is used to do the same transformations before the prediction
+- Labels
+- Feature info - ML.Feature_info
+- Models
+	- Supervised - labeled data
+		- Classification - specific class in which label suits with probability
+			- linear
+			- logistic
+			- dnn_classifier
+			- boosted_tree_classifier
+		- Regression - speicific label values
+			- linear_
+			- Logistic_reg
+			- dnn_regressor
+			- boosted_tree_regressor
+		- Recommendation
+			- tensorflow
+			- matrix_factorization
+	- UnSupervised - unlabeled data - clusters
+		- kmeans
+	- Reinforcemen Learning - Contains agents and environemnts, based on a state at a particular points the agent proposes an action and agent is rewarded(+/-) for the action - used in AlphaGo/Chess 
+	
+	
 - Training Data -> Auto ML -> Predication with REST API
 
+
+- Kubeflow 
+	- Google Opensource ML Pipeline framework
+	- can be packaged with dependencies and can run on any cloud provider
+	- provides visual flow the actvitives
+	
+AutoML API - APIs and Services
+AI Hub - for collaboration of Machine learning models 
+
+
+Vision - Imports -> Train -> Evaluate -> Validate
+	- Need labled data
+
+ML Framework
+	- Tensor Flow
+	- AI Platform
+
+
+AI Platform - cloud Notebooks
+- for sharing notebooks 
+- Maggic Functions - %%bigquery
+
+
+	
+TensorFlow
+ - Google Opensource end-to-end ML Platform
+ - TensorFlow Lite - Mobile/embedded devices
+ - TensorFlow.JS - for browser application
+ - TensorFlow Extended- for ML Pipelines
+	
+Keras
+- Open source neural network libraries - written in Python
+- High level API for fast experimentation which runs on top of the existing Machine learning frameworks
+-tf.kernas - Tensorflow supports keras
+
+Google Colab
+- jupiter notebooks with pre existing python libraries
+
+------------------------[
+Machine Learning Concepts
+-----------------------------
 NLP
  - Syntactical Analysis - Grammer
  - Entity Analysis - cateogorizing words - phone numbers, States
@@ -807,51 +920,6 @@ Data Preparation
  - LogScaling - small number has many points and vast majority have few points - convering to log(x)
  - Bucketing - moving continous data to discreate data by spliting the data into ranges and selecting a point in each range
 
-AI Platform - cloud Notebooks
-- for sharing notebooks 
-- Maggic Functions - %%bigquery
-
-BigQuery ML
-- Ingest - ML.Weights(inspect)
-	- Train - ML.TrainingInfo
-		- Evaluate - ML.Evaluate
-			- Predict - ML.Predict
-- Transform - keyword used in transformations to the raw data before training it and is used to do the same transformations before the prediction
-- Labels
-- Feature info - ML.Feature_info
-- Models
-	- Supervised - labeled data
-		- Classification - specific class in which label suits with probability
-			- linear
-			- logistic
-			- dnn_classifier
-			- boosted_tree_classifier
-		- Regression - speicific label values
-			- linear_
-			- Logistic_reg
-			- dnn_regressor
-			- boosted_tree_regressor
-		- Recommendation
-			- tensorflow
-			- matrix_factorization
-	- UnSupervised - unlabeled data - clusters
-		- kmeans
-	- Reinforcemen Learning - Contains agents and environemnts, based on a state at a particular points the agent proposes an action and agent is rewarded(+/-) for the action - used in AlphaGo/Chess 
-	
-TensorFlow
- - Google Opensource end-to-end ML Platform
- - TensorFlow Lite - Mobile/embedded devices
- - TensorFlow.JS - for browser application
- - TensorFlow Extended- for ML Pipelines
-	
-Keras
-- Open source neural network libraries - written in Python
-- High level API for fast experimentation which runs on top of the existing Machine learning frameworks
--tf.kernas - Tensorflow supports keras
-
-Google Colab
-- jupiter notebooks with pre existing python libraries
-
 Feedforward Neural Network - input- hidden layer - output layer
 Recurrent Neural Network(RNN) - Directed cycles - weather forcase model - Time series problem
 Convolution Neural Network - Visual learning task/Natural language process - have a convolution layer in the hiddern layers 
@@ -861,7 +929,6 @@ Convolution Neural Network - Visual learning task/Natural language process - hav
 Generative Adversarial Networks(GANs) - create images/poet/deepfakes
 	- Generator network
 	- Discriminator network
-
 
 Model evaluation parameters
 - Classification Problem - Confusion matrix, precision, recall, accuracy
