@@ -40,6 +40,8 @@ GCP Structure
 				Resources - Compute
 
 
+Reference Architectures - gcp.solutions
+
 Security
 ----------
 Regualtion Compliance - HIPAA
