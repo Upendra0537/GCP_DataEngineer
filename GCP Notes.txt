@@ -145,15 +145,6 @@ How to use
 - job logs persist even if the cluster is deleted
 
 
-Cloud Data Fusion:
-- to create visual data pipelines
-	Wrangler - for reviewing the data, create transformations and create a reciepie which can be used in datafusion to run the recipie on teh whole dataset
-	Data Pipeline - Framework - drap and drop 
-	Rules Engine - for rules from Business
-	Metadata Aggregator - field level details
-- Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
--Lineage of data - transformations which happened on each field of data from source to destination
-
 ---------------
 Cloud Composer:
 ---------------
@@ -310,6 +301,26 @@ gcloud pubsub subscriptions delete mySub1
 gcloud pubsub topics delete sandiego
 
 gcloud pubsub topics list
+
+
+Cloud Data Fusion:
+- to create visual data pipelines
+	Wrangler - for reviewing the data, create transformations and create a reciepie which can be used in datafusion to run the recipie on teh whole dataset
+	Data Pipeline - Framework - drap and drop 
+	Rules Engine - for rules from Business
+	Metadata Aggregator - field level details
+- Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
+-Lineage of data - transformations which happened on each field of data from source to destination
+
+
+--------------
+Cloud DataPrep - TRIFACTA
+--------------
+- Exploring, Clearning and preparing Data
+- Visualization of Transformation
+- Once the Transformation are done, moved to data flow for deployment
+- creation of reciepe for all the transformation(by the autosuggestor), use automater to create dataflow
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
