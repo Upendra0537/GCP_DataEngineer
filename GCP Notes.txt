@@ -3,8 +3,6 @@ Google Cloud Profession - Data Engineering
 - Compute and store are seperated for better resource utilization
 - Speed of transfer of data between compute and store - Petabyte bisectional bandwidth
 - gsutil - command prompt
-- serverless
-- Stackdriver for monitoring the activities from logs - who,what and where - Stackdriver audit logs
 - DataEngineer - Build Data Pipelines
 - 5 Dimension of Data
 	- Validity
@@ -12,18 +10,6 @@ Google Cloud Profession - Data Engineering
 	- Completeness
 	- Consistency
 	- Uniformity
-- While quering data the most of the time consumption is for I/O operations rather than the computes involved in it. That is reducing the query to only pull specific Columns information runs faster than the all the columns.
-	-Avoid self-joins of large tables
-	-Efficient joins - Denormalization
-	-Use window functions instead of Joins
-	- Join with precomputed values
-	-Approximate aggregation functions 
-		-  COUNT(DISTINCT …), we can use APPROX_COUNT_DISTINCT
-		- APPROX_QUANTILES to compute percentiles
-		- APPROX_TOP_COUNT to find the top elements 
-		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
-- Anthos - open source - on permise or cloud application - development and operations experiences - faster/modernized apps
-- cloud source repository - for storing code for free
 
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
 
@@ -31,7 +17,6 @@ Levels
 Level-1 - Security
 Level-2 - Compute - Storage - Network
 Level-3 - Big Data and ML Products
-
 
 GCP Structure
 	Organization - TCS
@@ -48,7 +33,7 @@ Regualtion Compliance - HIPAA
 Shared Responsibilty Model
 	- Platform Security Features
 	- Google InfoSec Team
-	- Customer Folliwng Best Practices - IAM roles
+	- Customer Following Best Practices - IAM roles
 	- Principle of Least previlages - IAM roles
 	- Always be watching - logs 
 
@@ -62,14 +47,16 @@ Cloud IAM API - for auditing
 
 Data Security
 	- Encryption at flight or at Rest
-	- Cloud Key Management Service (KMS)
-	- Limit Blast Radius - VPC Service Controls
+	- Limit Blast Radius - VPC Service Controls - creating a perimeter which can host all teh cloud services. these cloud services cannot communicate to other cloud services outside the perimeter
 	- GCP Security Command Center 
 		- Asset Management
 		- Web Security Scanner
 		- Anomaly Detection
 		- Treat Detection
-
+	- Key Management - 
+		- Customer Managed Encryption Keys(CMEK) - Data is encrypted with Data Encryption Key(DEK) which is encrypted by Key Encryption key(KEK) -Cloud Key Management Service (KMS)
+		- Customer Supplied Encryption Keys(CSEK) - Keys are kept in Cloud and supplied by Customer
+		- Client-Side Encryption  - Keys are supplied by Customer and not kept in cloud
 Data Privacy
 	- Cloud Data Loss Preventive - to identify Sensitive information and de-identify them by masking,tokenizing, data shifting
 		- Text
@@ -92,11 +79,13 @@ Compute
 - App Engine - Can run application Code
 - Kubernities Engine - Run Containers
 - Cloud Function - Logic for an event
-- Cloud Dataproc - can run Apache Spark jobs, Dataflows - ML Models, support both batch and streaming data 
+- Cloud Dataproc - can run Apache Spark jobs
 - Pub/Sib - Publish and Subscriptions for events.
-- Cloud DataFlow - Apache Beam jobs
+- Cloud DataFlow - Apache Beam jobs - support both batch and streaming data 
 - Cloud Data Fusion - Build Pipeline by drag and drop and can run in Clound Dataproc
 - Cloud Monitoring - can be used to monitor any process and create alerts and dashboards
+- Cloud Composer - Orchestrator with DAGs - Apache Air Flow
+- Cloud Dataprep - Data cleanup using recipes and deploy using dataflow
 
 
 Compute Engine:
@@ -549,7 +538,7 @@ Cloud BigQuery
 - Follows De-Normalization Process by combining multiple table data into a single table using Structs
 - Capacitor Storage  System - Nested and repeated Data - Columns are store seperately and each cell is stored as (values,  repetition level, definition level)
 - get granular data from ARRAYs when you need it but not be punished if you don't (BigQuery stores each column individually on disk)
-Sample:  Repeat (Datatype)
+Sample:  Repeat (Datatype)			
 1	1234-1	start		01-01-2021
 		inprogress	
 		complete
@@ -636,6 +625,16 @@ Best Practices
 	- Optimising Storage
 		- expiration settings
 		- long term storage advantages
+	- While quering data most of the time consumption is for I/O operations rather than the computes involved in it. That is reducing the query to only pull specific 			Columns information runs faster than the all the columns.
+	-Avoid self-joins of large tables
+	-Efficient joins - Denormalization
+	-Use window functions instead of Joins
+	- Join with precomputed values
+	-Approximate aggregation functions 
+		-  COUNT(DISTINCT …), we can use APPROX_COUNT_DISTINCT
+		- APPROX_QUANTILES to compute percentiles
+		- APPROX_TOP_COUNT to find the top elements 
+		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
 
 BigQuery ML
    Supports ML models
@@ -1149,7 +1148,9 @@ DataStudio
 	- Area Charts - Cumilative numbers on time series
 	- Scatter Plot - size,color of the plot
 
-
+- Anthos - open source - on permise or cloud application - development and operations experiences - faster/modernized apps
+- cloud source repository - for storing code for free
+- Stackdriver for monitoring the activities from logs - who,what and where - Stackdriver audit logs
 
 GIS Functions
 ---------------
