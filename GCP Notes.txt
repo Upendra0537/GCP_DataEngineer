@@ -43,7 +43,6 @@ GCP Structure
 Security
 ----------
 Regualtion Compliance - HIPAA
-Data security and Privacy
 Shared Responsibilty Model
 	- Platform Security Features
 	- Google InfoSec Team
@@ -52,8 +51,37 @@ Shared Responsibilty Model
 	- Always be watching - logs 
 
 IAM
-	- 
-	
+	- Human User - Username/Password
+	- Service Account - Key
+	- Cloud IAM API - Oauth/openid/jwt
+	- Service Account User Role - service account access other service account
+
+Cloud IAM API - for auditing
+
+Data Security
+	- Encryption at flight or at Rest
+	- Cloud Key Management Service (KMS)
+	- Limit Blast Radius - VPC Service Controls
+	- GCP Security Command Center 
+		- Asset Management
+		- Web Security Scanner
+		- Anomaly Detection
+		- Treat Detection
+
+Data Privacy
+	- Cloud Data Loss Preventive - to identify Sensitive information and de-identify them by masking,tokenizing, data shifting
+		- Text
+		- Images
+		- Psuedo-Anonymization
+		- Risk Analysis
+
+Industry Regulation
+	- FedRAMP - Federal Risk and Authorization Management Program - 
+	- Children's Online Privacy Protection Act(COPPA) - Parents Consent
+	- HIPAA - Health insurance Portability and Accountability Act
+	- PCI DSS - Payment Details
+	- GDPR(General Data Protection Regulation) - EU 
+
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 Compute
