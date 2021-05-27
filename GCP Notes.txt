@@ -960,7 +960,11 @@ AI Platform
 	- Train 
 	- Test - TensorFlow Extended,AI Platform Prediction, Kubeflow
 	- Deploy
-	
+- Contains Workers, Master and parameter servers
+- Tiers
+	- Basic - single instance  - least cose
+	- Customer - different configurations
+	- Standard_1 and Premium_1 uses multiple worker and parameter servers - costly
 
 		
 		
@@ -1034,7 +1038,7 @@ Hyperparameters - values which needs to specified before training the model
 
 Data Preparation
  - Dataset Construction
- - Feature Engineering
+ - Feature Engineering - Biases and weights
  - Missing data - Ignore/Remove/Impute(Mean or Median/Fixed Constant/Most Frequent values/K-Neighbour/DeepLearning)
  - Missing Values 
  	- Missing Completely at Random(MCAR)
@@ -1056,6 +1060,18 @@ Convolution Neural Network - Visual learning task/Natural language process - hav
 Generative Adversarial Networks(GANs) - create images/poet/deepfakes
 	- Generator network
 	- Discriminator network
+
+In Neural Networks
+- Wide models are used for Memorization, Deep Modesl are for generalization
+- Deep and wide modes are ideal for Recommendation Applications
+- Epoch - is a single pass through the training data
+
+Adjustment to Neural Netowrk models
+- Biases  - parameter that is adjusted for a neural network to learn from its training data
+- weights - Parameters that are to be adjected for a neural network to learning for its traingin data
+
+
+
 
 Model evaluation parameters
 - Classification Problem - Confusion matrix, precision, recall, accuracy
