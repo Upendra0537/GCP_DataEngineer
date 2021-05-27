@@ -205,16 +205,17 @@ Cloud Pub/Sub
 	- Publisher - publishes messages based on Topics created
 	- Subscriber - Subscribes to the Topics
 - one to many/one to one/many to one mapping between publisher -> Topic -> Subscription -> Subscriber
+- Used for loosly coupling the systems.
 - Request Types
 	- Pull - Subscribers initiaties the actions, requests messages, pub sends the message, sub acknowledges the message - default
 	- Push - Publisher pushes the message to Subscriber, Sub Acknowledges the message - Https URL with valid SSL Certificate to accept POST requests.
-- Acknowledge the message is key as the next messages from the subscriptions will be passed on until the prior message is acknowledged
+- Acknowledge the message is key as the next messages from the subscriptions will not be passed on until the prior message is acknowledged
 - once the message is recieved and acknowledges the message doesnt exist in the topics - default(can make them retain by setting retain ack message to true)
 - Pub/Sub guarantee's atlest one message to every subscriber
-- Message created in a topic before subscription creation, subscriber will not deliver prior messages.
+- Message created in a topic before subscription creation, subscriber will not get prior messages.
 - Messages created in a topic without any subscriptions will not have a destination.
 - Subscription retention period without activity - 31 days - 365 days or no expiry
-- Message are sent to Subscriber for if there is delay with acknowledgement time.
+- Message are sgsin sent to Subscriber if there is delay with acknowledgement time.
 - Seek Feature - once messages are retained in Topic, we can use seek feature to go to a point of time(backforward/forward) for the subscriber to retrieve all the messages
 - snapshot allowed in topic
 - Stackdriver logging for checking the health of the pub/sub
@@ -230,7 +231,7 @@ Cloud Pub/Sub
 	- Distributed logging
 	- Device Data Streaming
 - IAM - grant access to specific topics and subscriptions
-- Used for loosly coupling the systems.
+
 
 How to use
 - Create a Topic in Cloud Pub/Sub
@@ -267,7 +268,7 @@ gcloud pubsub topics delete sandiego
 gcloud pubsub topics list
 
 ---------------
-Cloud Composer:
+Cloud Composer: Apache Airflow
 ---------------
 - Fully Managed Workflow orchestrator built on open source Apache Air Flow to streamline multiple activites.(No vendor lock-in)
 - Apache airflow works on DAG and each DAG Contains operators, Cloud Composer manages the resources it need
@@ -291,22 +292,6 @@ Cloud Composer:
 	- Pull - Schedule
 - monitoring can be done using stackdriver or cloud logging
 
-
-
-
-
-
-
-Cloud Data Fusion:
-- to create visual data pipelines
-	Wrangler - for reviewing the data, create transformations and create a reciepie which can be used in datafusion to run the recipie on teh whole dataset
-	Data Pipeline - Framework - drap and drop 
-	Rules Engine - for rules from Business
-	Metadata Aggregator - field level details
-- Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
--Lineage of data - transformations which happened on each field of data from source to destination
-
-
 --------------
 Cloud DataPrep - TRIFACTA
 --------------
@@ -315,6 +300,16 @@ Cloud DataPrep - TRIFACTA
 - Once the Transformation are done, moved to data flow for deployment
 - creation of reciepe for all the transformation(by the autosuggestor), use automater to create dataflow
 
+------------------
+Cloud DataFusion:
+-------------------
+- to create visual data pipelines
+	Wrangler - for reviewing the data, create transformations and create a reciepie which can be used in datafusion to run the recipie on the whole dataset
+	Data Pipeline - Framework - drap and drop 
+	Rules Engine - for rules from Business
+	Metadata Aggregator - field level details
+- Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
+-Lineage of data - transformations which happened on each field of data from source to destination
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
