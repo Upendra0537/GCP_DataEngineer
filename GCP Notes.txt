@@ -128,41 +128,15 @@ Cloud DataProc
 - Cloud DataProc workflow templates for scheduling the jobs
 - Support MapReduce,Spark,Hive,Pig
 - Cloud Storage Connector - for data rather than HDFS and preemptable cluster can be used 
-- Other connectors - BigTable, BigQuery, GCS, Stackdriver Logging and Monitoring
+- Other connectors - BigTable, BigQuery, GCS, Stackdriver Logging and Stackdriver Monitoring
 
 How to use
 - Data proc - create cluster - region/cluster choice
 	 -  jobs - submit job - type of language, main class, arguments, jar file
 - job logs persist even if the cluster is deleted
 
-
----------------
-Cloud Composer:
----------------
-- Fully Managed Workflow orchestrator built on open source Apache Air Flow to streamline multiple activites.(No vendor lock-in)
-- Apache airflow works on DAG and each DAG Contains operators, Cloud Composer manages the resources it need
-- Need to create an environment in a GCP Project which contains
-	- Cloud Compose environment
-	- Kubernities(GKE Cluster)
-		- Redis
-		- Scheduler
-		- worker nodes(min 3)		
-	- Pub/Sub - need manually delete after done
-	- CloudStorage - to store the DAGS - need to manually delete after done
-	- connects to tenet project of google
-	- Airflow parameter and Environment variables
-- Each of the block of operations are created in DAG(Direct Acyclic Graph) - takes input and outputs but cannot trigger itself
-	- a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
-	- written in Python language and placed in DAG folder
-	- run this python code to create a DAG object with tasks
-	- Each Task with have inbuild operators 
-- can be trigger by 
-	- Push - Event - using Cloud Functions
-	- Pull - Schedule
-- monitoring can be done using stackdriver or cloud logging
-
 ----------------
-Cloud Dataflow:
+Cloud Dataflow - Apache Beam
 ----------------
 - Fully Managed, serverless
 - based on Apache Beam = Batch + Stream
@@ -202,9 +176,9 @@ pTransforms - core beam transforms
 - Aggregation - to merge common keys or window from an input pCollection and write it to output pCollection
 - GroupByKey - Collect all the values associated with a unique key - suffle phase in mapreduce
 - CoGroupByKey - Relational join of multiple pCollections with same key type
-- Combine - Combining of elemention using a combine function - Min/Max/Sum
+- Combine - Combining of elements - Min/Max/Sum
 - Flatten - Merges multiple pCollections into a single pCollection
-- Partition - How the elements of pCollection can be splitup - reduce phse in mapreduce
+- Partition - How the elements of pCollection can be splitup - reduce phase in mapreduce
 
 Flow -
 In Cloud - pipeline is triggered in GCP Cloud Dataflow service - which submits GCP Cloud Dataflow jobs - which invokes multiple worker nodes  - which uses cloud storage for data
@@ -220,7 +194,6 @@ Cloud Dataflow SQL - Apache Beam SQL - QUery is converted to SQL Transformation 
 How to use
 - run pipelines in local to test and debug - remove DataFlowRunner from pipeline options to run locally
 - run pipelines in PROD using managed cloud resources
-
 
 ---------------
 Cloud Pub/Sub
@@ -292,6 +265,36 @@ gcloud pubsub subscriptions delete mySub1
 gcloud pubsub topics delete sandiego
 
 gcloud pubsub topics list
+
+---------------
+Cloud Composer:
+---------------
+- Fully Managed Workflow orchestrator built on open source Apache Air Flow to streamline multiple activites.(No vendor lock-in)
+- Apache airflow works on DAG and each DAG Contains operators, Cloud Composer manages the resources it need
+- Need to create an environment in a GCP Project which contains
+	- Cloud Compose environment
+	- Kubernities(GKE Cluster)
+		- Redis
+		- Scheduler
+		- worker nodes(min 3)		
+	- Pub/Sub - need manually delete after done
+	- CloudStorage - to store the DAGS - need to manually delete after done
+	- connects to tenet project of google
+	- Airflow parameter and Environment variables
+- Each of the block of operations are created in DAG(Direct Acyclic Graph) - takes input and outputs but cannot trigger itself
+	- a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
+	- written in Python language and placed in DAG folder
+	- run this python code to create a DAG object with tasks
+	- Each Task with have inbuild operators 
+- can be trigger by 
+	- Push - Event - using Cloud Functions
+	- Pull - Schedule
+- monitoring can be done using stackdriver or cloud logging
+
+
+
+
+
 
 
 Cloud Data Fusion:
