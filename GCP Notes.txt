@@ -579,6 +579,14 @@ FROM racing.race_results AS r, UNNEST(r.participants) AS p
 	- Cloud DLP - Cloud Data Loss Preventive - to identify Sensitive information and de-identify them by masking,tokenizing, data shifting
 	- Data is encrypted by DEK(Data Encryption Key) which is encrypted by Wrapped DEK which is genered by KEK(Key Encryption Key) stored in Cloud Key management service
 		-Wrapped DEK and Encrypted data are stored in Big query
+Roles
+- BigQUery Data Editor - can be assigned to dataset or tables or view - read/update/delete
+- BigQuery Data Owner - can be assigned to dataset or tables or view - read/update/delete
+- BigQuery Data Viewer - - can be assigned to dataset or tables or view - read
+- BigQuery Job User - permission to run the jobs
+- BigQuery Metatdata Viewer - view dataset/tables/views metadata
+- 
+
 
 BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams) 
 	- Cloud Audit logs - BigQueryAuditMetadata
