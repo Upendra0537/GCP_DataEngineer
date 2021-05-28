@@ -12,6 +12,8 @@ Google Cloud Profession - Data Engineering
 	- Uniformity
 
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
+- Stackdriver Monitoring is useful for measuring performance metrics and alerts, but not for logs
+
 
 Levels
 Level-1 - Security
@@ -42,6 +44,13 @@ IAM
 	- Service Account - Key
 	- Cloud IAM API - Oauth/openid/jwt
 	- Service Account User Role - service account access other service account
+	
+Roles
+- Billing Administrator is the appropriate role to assign to the finance team for visibility of GCP charges
+- Billing Account Creator - Create new billing accounts
+- Billing Account Administrator - Manage billing account(no create)
+- Billing Account User/Project Billing Manager - link projects to billing accounts
+- Billing Account Viewer - view billing account details
 
 Cloud IAM API - for auditing
 
@@ -105,6 +114,7 @@ Cloud DataProc
 - to submit existing Apachi Spark or Hadoop jobs  - ease of scaling, connector to GCS rather than hdfs, other connectors for analytics BQ
 - take care of setting up VM, softwares it requires, setting up Master Node(name node) and worker Node(data node) with other hadoop softwares 
 - billed per usage per second with min of 1 minute
+- Create custom Dataproc image that fulfils the customer requirements and use it to deploy a Dataproc cluster.
 - region - regional - global(not regional)
 - Cluster choice
 	- Single Node cluster - 1 - master and worker nodes in a single machine
@@ -375,7 +385,6 @@ Cloud SQL   - AWS RDB
 - Managed Instance(not Fully)
 	- need to setup a window for upgrades
 	- 30TB limit
-
 - My SQL
 	- Primary Instance and Failover Replica in two different zones
 	- when Primary Instance failes, the failover takes the load and becomes Primary Instance and a new Failover replica gets created in a different zone - High availability
@@ -389,7 +398,7 @@ Work on Cloud SQL
 - Create a Cloud SQL Instance - create a Key
 - Create a compute engine VM - login to it, download the My SQL client app, provide the IP, Port and Key details
 - Connect to the My SQL and import the data/create tables 
-
+- The Stackdriver Logging agent requires the fluentd plugin to be configured to read logs from your database application. 
 ----------------
 Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
 ---------------
@@ -400,6 +409,8 @@ Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
 
 - High level structure => Collections => sub collections => documents(JSON files)
 - need unique identifier for each document
+
+- Datastore is perfect for semi-structured data less than 1TB in size. Product catalogs are a recommended use case
 
 Example:
 info = { name:jack} //json file
@@ -503,9 +514,22 @@ Data Storage model
 	- each cell contains a timestamp and can store history based on timestamp
    - operations only by row 
    - sparse table system - empty column cells wont waste space in the table
-   - cell limitation - 10MB with history
-   - row limitation - 100MB
    - garbage collection feature to remove data based on rules
+
+Limits
+   - single row key - 4KB 
+   - cell limitation - 10MB with history
+   - Single row limitation - 100MB
+   - SSD clusters: 2.5 TB per node - even though HDD Process more data the speed is low 
+   - HDD clusters: 8 TB per node
+   - If instance storage utilization reaches 70% per node, additional nodes should be added
+
+HDD Outlier than using SSD
+- You need to store over 10TB of data.
+- You need to maintain costs
+- You plan on running batch workloads instead of frequently executing random reads across a small number of rows.
+
+Change from HDD to SSD/Dev to Prod - Export your Bigtable data into a new instance, and configure the new instance type as production with SSDs
 
 how to design row-key (avoid hotspots in cluster)
 	- think of all the questions you can ask the database
@@ -559,7 +583,10 @@ FROM racing.race_results AS r, UNNEST(r.participants) AS p
 - Unnested is used to extract the data from a Record Mode so as to flatten the data.
 	You need to UNNEST() arrays to bring the array elements back into rows
 	UNNEST() always follows the table name in your FROM clause (think of it conceptually like a pre-joined table)
-- Slots - unit of computation Power - number of slots determined by query size and complexity, used for pricing, fixed pricing available(i.e. x number of slots for y timeperiod)
+- Slots 
+	- unit of computation Power - number of slots determined by query size and complexity, used for pricing
+	- Flat rate pricing to enable a higher total slot quota for your project - fixed pricing available(i.e. x number of slots for y timeperiod)
+
 - Project.dataset.table - bigquery structure
 	- Dataset - Similar to Database
 		- Native tables - data in teh BQ
@@ -585,8 +612,6 @@ Roles
 - BigQuery Data Viewer - - can be assigned to dataset or tables or view - read
 - BigQuery Job User - permission to run the jobs
 - BigQuery Metatdata Viewer - view dataset/tables/views metadata
-- 
-
 
 BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams) 
 	- Cloud Audit logs - BigQueryAuditMetadata
@@ -1078,9 +1103,6 @@ Adjustment to Neural Netowrk models
 - Biases  - parameter that is adjusted for a neural network to learn from its training data
 - weights - Parameters that are to be adjected for a neural network to learning for its traingin data
 
-
-
-
 Model evaluation parameters
 - Classification Problem - Confusion matrix, precision, recall, accuracy
 - Regression Problem - MAE(Mean Absolute Error) ,MSE(Mean Square Error),RMSE(Root Mean Square Error)
@@ -1169,7 +1191,7 @@ DataStudio
 	- Geographical Maps - region trends
 	- Area Charts - Cumilative numbers on time series
 	- Scatter Plot - size,color of the plot
-
+- For the reports, datastudio gets the information from Cache with a refresh time of 1hr. but if the need to get the data reflected soon, we can use the refresh button so as to query the report with new data from the original source.
 - Anthos - open source - on permise or cloud application - development and operations experiences - faster/modernized apps
 - cloud source repository - for storing code for free
 - Stackdriver for monitoring the activities from logs - who,what and where - Stackdriver audit logs
