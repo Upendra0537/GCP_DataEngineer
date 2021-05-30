@@ -347,7 +347,7 @@ Cloud Storage -  AWS S3 Bucket
  - version is allowed but is OFF by default
  - Class is respect to object not with respect to version
  - Small data transfers - console, gutil
- - large data transfers - Transfer appliance(one time transfer - 100TB or 450TB), Transfer services(Source to Sink - scheduled/repeatitive)
+ - large data transfers - Transfer appliance(one time transfer - TA40 - 40TB or TA300 - 300TB), Transfer services(Source to Sink - scheduled/repeatitive)
  - Can trigger events when new data gets loaded to a bucket
 
 Regional - default - in different zones
@@ -822,7 +822,8 @@ ML Activities
 		- Compute Engine		
 	- Build Custom Model (Code Less) - bring your data - reusable Models
 		- Cloud AutoML  - transfer learning - using a already trained model for a different usecase to predict a new label with less training data and new feature values 
-			- AutoML Vision
+			- AutoML Vision - enables you to train machine learning models to classify your images according to your own defined labels.
+				-AutoML Vision Edge allows you to train and deploy low-latency, high accuracy models optimized for edge devices.To build an application on iOS or Android devices you can use AutoML Vision Edge in ML Kit.
 			- AutoML Video Intelligence
 			- AutoML Natural Language
 			- AutoML Natural translation
