@@ -181,7 +181,7 @@ Cloud Dataflow - Apache Beam
 - Drain Feature - stops pulling the data from the source and tries to complete the dataflow with the existing data.
 - maxNumWorkers - to limit scaling 
 
-pTransforms - core beam transforms
+pTransforms - core beam transforms - https://beam.apache.org/documentation/programming-guide/#core-beam-transforms
 - ParDo - acts on a single data from input pCollection and generates zero,one,many data into the output pCollection - DoFn is a template to create userdefined functions referred in ParDo - Map phase in Mapreduce
 - Aggregation - to merge common keys or window from an input pCollection and write it to output pCollection
 - GroupByKey - Collect all the values associated with a unique key - suffle phase in mapreduce
@@ -526,7 +526,7 @@ Limits
 
 HDD Outlier than using SSD
 - You need to store over 10TB of data.
-- You need to maintain costs
+- You need to maintain costs, Data Archival(more write less read)
 - You plan on running batch workloads instead of frequently executing random reads across a small number of rows.
 
 Change from HDD to SSD/Dev to Prod - Export your Bigtable data into a new instance, and configure the new instance type as production with SSDs
