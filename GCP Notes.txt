@@ -451,7 +451,7 @@ Cloud Memorystore - AWS ElasticCache
 
 
 --------------
-Cloud BigTable - HBase model
+Cloud BigTable - HBase model - https://cloud.google.com/bigtable/docs/overview
 --------------- 
 - Managed wide column - no SQL Database - key/value
 - Very High through put with very less latency and high availability
@@ -466,7 +466,7 @@ Cloud BigTable - HBase model
 - Structure
 	- Based on Colossus File System to store Data - maintains 3 replicas
 	- Uses Clusters with multiple nodes to store metadata of Tablets
-	- Colossus uses TABLETS - Datastructure which contains pointers to the data
+	- Colossus uses TABLETS - Datastructure which contains pointers to the data - Bigtable table is sharded into blocks of contiguous rows
 - learning system and self optimized and self reliabilie and self redistribution of traffic- Min 300GB required
 - Fault Tolerant - if a node is lost, a new nodes come-up and only the metadata and pointers are update not the actual data as it lies is colossus
 - Data stored in Tables
@@ -506,7 +506,9 @@ can be accessed by
 				=> scan 'Vechiles' , {COLUMNS => 'det:route', FILTER => "ValueFilter(=,'regexstring:88)"}
 				=> scan 'Vechiles',{ROWPREFIXFILER => 'M111-2',COLUMNS =>'loc:lat'}
 		
-		
+- Load Balancing - This process splits busier/larger tablets in half and merges less-accessed/smaller tablets together, redistributing them between nodes as needed. If a certain tablet gets a spike of traffic, Bigtable splits the tablet in two, then moves one of the new tablets to another node. Bigtable manages all of the splitting, merging, and rebalancing automatically
+- Compaction - Bigtable periodically rewrites your tables to remove deleted entries, and to reorganize your data so that reads and writes are more efficient
+- reverse
 IAM - at project or instance level
 Data Storage model
 	- Contains row-keys - only one index allowed in bigtables
@@ -520,9 +522,23 @@ Limits
    - single row key - 4KB 
    - cell limitation - 10MB with history
    - Single row limitation - 100MB
-   - SSD clusters: 2.5 TB per node - even though HDD Process more data the speed is low 
-   - HDD clusters: 8 TB per node
+   - SSD clusters: 2.5 TB per node - even though HDD Process more data the speed is low - 10,000 rows per sec(read/write)
+   - HDD clusters: 8 TB per node - 500 rows per sec(read)/10,000 write
    - If instance storage utilization reaches 70% per node, additional nodes should be added
+   - Bigtable offers optimal latency when the CPU load for a cluster is under 70%. For latency-sensitive applications, however, we recommend that you plan at least 2x capacity for your application's max Bigtable QPS
+   - Strong Consistency - Single Cluster. multiple cluster - eventual consistency
+   - doesn't perform well when
+   	- large number of columns
+	- incorrect schema
+	- large amount of data
+	- scale-up or scale-down - take 20 mins 
+	- not enought nodes - 70%
+   - Dont use hashing or raw bytes as row keys
+   
+
+- Replication increases read through put but reduces write through put as all the cluster needs to be updated with same data.
+	- adding of nodes to the cluster - no impact on write through-put
+	- adding additional cluster with nodes - impacts write through-put
 
 HDD Outlier than using SSD
 - You need to store over 10TB of data.
@@ -530,7 +546,7 @@ HDD Outlier than using SSD
 - You plan on running batch workloads instead of frequently executing random reads across a small number of rows.
 
 Change from HDD to SSD/Dev to Prod - Export your Bigtable data into a new instance, and configure the new instance type as production with SSDs
-
+- Using one table for all tenants is the most efficient way to store and access multi-tenant data
 how to design row-key (avoid hotspots in cluster)
 	- think of all the questions you can ask the database
 	- field promotion - moving the known or common data into the row key for better querying.
@@ -539,6 +555,9 @@ how to design row-key (avoid hotspots in cluster)
 	- samples 
 		-Good -  reverse domain names/String Identifier
 		- Bad - sequence Numbers, Timestamp at the start of the row-key 
+	- reverse timestamp  - subtract of device timestamp with system timestamp - records are sorted with recent to old.
+	- use reverse domain 
+	- rather than more columns, group all the data in a single column with a delimiter with a unique rowkey ID
 for Time series scenarios
 	- tall and narrow tables
 	- use new rows rather than version
