@@ -144,6 +144,7 @@ How to use
 - Data proc - create cluster - region/cluster choice
 	 -  jobs - submit job - type of language, main class, arguments, jar file
 - job logs persist even if the cluster is deleted
+- no-address/network flag for creating internal IP subnet
 
 ----------------
 Cloud Dataflow - Apache Beam
@@ -376,7 +377,7 @@ Life Cycle Rules
 
 IAM - access control - bulk buckets
 ACL - Access control List - multiple accounts - granular level
-Signed URL - To provide a Cloud storage URL for access and restricting the URL with respect the access time. can only be used with gsutil - No UI Console
+Signed URL - To provide a Cloud storage URL for read/write/delete access and restricting the URL with respect the access time. can only be used with gsutil - No UI Console
 
 
 -----------
@@ -480,7 +481,7 @@ Cloud BigTable - HBase model - https://cloud.google.com/bigtable/docs/overview
 - Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
 - Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
 - BigTable is created by instance (supports 1000 tables)
-	- instance type - production(1 or more cluster - with 3 nodes)/development(single node cluster)
+	- instance type - production(1 or more cluster - with 3 nodes)/development(single node cluster) - cannot change once created
 	- Storage Type - SDD(each node process 2.5TB of data)- always preferred /HDD( 8TB of data per node)
 	- App Profile - custom application for connections - single Cluster routing(strong consistency) /multiple Cluster routines
 	- Clusters(max 4) - contains nodes
