@@ -12,8 +12,7 @@ Google Cloud Profession - Data Engineering
 	- Uniformity
 
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
-- Stackdriver Monitoring is useful for measuring performance metrics and alerts, but not for logs
-
+- Stackdriver Monitoring is useful for measuring performance metrics and alerts, but not for logs(Stackdriver logging)
 
 Levels
 Level-1 - Security
@@ -42,7 +41,7 @@ Shared Responsibilty Model
 IAM
 	- Human User - Username/Password
 	- Service Account - Key
-	- Cloud IAM API - Oauth/openid/jwt
+	- Cloud IAM API - Oauth/openid/jwt - for auditing
 	- Service Account User Role - service account access other service account
 	
 Roles
@@ -52,16 +51,15 @@ Roles
 - Billing Account User/Project Billing Manager - link projects to billing accounts
 - Billing Account Viewer - view billing account details
 
-Cloud IAM API - for auditing
-
 Data Security
 	- Encryption at flight or at Rest
-	- Limit Blast Radius - VPC Service Controls - creating a perimeter which can host all teh cloud services. these cloud services cannot communicate to other cloud services outside the perimeter
+	- Limit Blast Radius 
+		- VPC Service Controls - creating a perimeter which can host all the cloud services. these cloud services cannot communicate to other cloud services outside the perimeter
 	- GCP Security Command Center 
 		- Asset Management
 		- Web Security Scanner
 		- Anomaly Detection
-		- Treat Detection
+		- Treath Detection
 	- Key Management - 
 		- Customer Managed Encryption Keys(CMEK) - Data is encrypted with Data Encryption Key(DEK) which is encrypted by Key Encryption key(KEK) -Cloud Key Management Service (KMS)
 		- Customer Supplied Encryption Keys(CSEK) - Keys are kept in Cloud and supplied by Customer
@@ -88,17 +86,18 @@ Compute
 - App Engine - Can run application Code
 - Kubernities Engine - Run Containers
 - Cloud Function - Logic for an event
-- Cloud Dataproc - can run Apache Spark jobs
-- Pub/Sib - Publish and Subscriptions for events.
+- Cloud Dataproc - can run Apache Spark/hadoop jobs
+- Cloud Pub/Sib - Publish and Subscript for events.
 - Cloud DataFlow - Apache Beam jobs - support both batch and streaming data 
-- Cloud Data Fusion - Build Pipeline by drag and drop and can run in Clound Dataproc
+- Cloud Data Fusion - Build Pipeline by drag and drop and can run in Cloud Dataproc
 - Cloud Monitoring - can be used to monitor any process and create alerts and dashboards
 - Cloud Composer - Orchestrator with DAGs - Apache Air Flow
 - Cloud Dataprep - Data cleanup using recipes and deploy using dataflow
 
-
+---------------
 Compute Engine:
- - Standard VM's - can spin up by specifying region and zones, when required has some store on cluster
+----------------
+ - Standard VM's - can spin up by specifying region and zones, when required has some storage on cluster
  - Premptible VM's - can be used for quick computing, no cluster store
  - Persistance Disks - to create storage space with X storage
 	Data persist even if the VM is shutdown 
@@ -123,7 +122,7 @@ Cloud DataProc
 - Clusters	
 	- Persistent Clusters - Persistent data cluster
 	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them 
-- Stack driver loggering - for monitoring the health
+- Stackdriver loggering - for monitoring the health
 - On-permis - HDFS to Cloud Storage 
 - Seperate Compute from storage 
 	- Run hadoop jobs on Cluster with memory block size - inefficient - old way - On-permis
@@ -199,7 +198,7 @@ IAM
 - Controller service accounts - worker jobs - compute engine service accounts
 
 Regional Endpoints - to control dataflow works to be availble in the region - reduce latency
-Migrating MapREduce jobs to Cloud Dataflow
+Migrating MapReduce jobs to Cloud Dataflow
 
 Cloud Dataflow SQL - Apache Beam SQL - QUery is converted to SQL Transformation in the pipeline for batch or streaming data
 How to use
@@ -226,7 +225,7 @@ Cloud Pub/Sub
 - Message created in a topic before subscription creation, subscriber will not get prior messages.
 - Messages created in a topic without any subscriptions will not have a destination.
 - Subscription retention period without activity - 31 days - 365 days or no expiry
-- Message are sgsin sent to Subscriber if there is delay with acknowledgement time.
+- Message are re-sent to Subscriber if there is delay with acknowledgement time.
 - Seek Feature - once messages are retained in Topic, we can use seek feature to go to a point of time(backforward/forward) for the subscriber to retrieve all the messages
 - snapshot allowed in topic
 - Stackdriver logging for checking the health of the pub/sub
@@ -243,7 +242,6 @@ Cloud Pub/Sub
 	- Device Data Streaming
 - IAM - grant access to specific topics and subscriptions
 
-
 How to use
 - Create a Topic in Cloud Pub/Sub
 - Create a Subscription to the topic created
@@ -255,7 +253,6 @@ cloudstorage notifications - pub/sub - cloud function - cloudstorage
 cloudstorage - pub/sub - dataflow - bigquery
 
 Commands
-
 gcloud pubsub topics create sandiego
 gcloud pubsub topics publish sandiego --message "hello"
 messageIds:
@@ -400,10 +397,12 @@ Work on Cloud SQL
 - Create a compute engine VM - login to it, download the My SQL client app, provide the IP, Port and Key details
 - Connect to the My SQL and import the data/create tables 
 - The Stackdriver Logging agent requires the fluentd plugin to be configured to read logs from your database application. 
+
+
 ----------------
 Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
 ---------------
-- Fully Managed No SQL database
+- Fully Managed No SQL database - suitable for semi-structured data
 - No SQL Document store - horizontal scaling
 - Real time DB with mobile SDK
 - ACID Transactions - OLTP
