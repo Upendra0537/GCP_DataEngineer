@@ -12,7 +12,6 @@ Google Cloud Profession - Data Engineering
 	- Uniformity
 
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
-- Stackdriver Monitoring is useful for measuring performance metrics and alerts, but not for logs(Stackdriver logging)
 
 Levels
 Level-1 - Security
@@ -54,7 +53,11 @@ Roles
 Data Security
 	- Encryption at flight or at Rest
 	- Limit Blast Radius 
-		- VPC Service Controls - creating a perimeter which can host all the cloud services. these cloud services cannot communicate to other cloud services outside the perimeter
+		- VPC Service Controls - creating a perimeter which can host all the cloud services. 
+		              - these cloud services cannot communicate to other cloud services outside the perimeter
+			      - Subnets are created in all regions
+			      - Shared VPC - share resources in same organization
+			      - VPC peering  - share resources in different organization
 	- GCP Security Command Center 
 		- Asset Management
 		- Web Security Scanner
@@ -64,6 +67,10 @@ Data Security
 		- Customer Managed Encryption Keys(CMEK) - Data is encrypted with Data Encryption Key(DEK) which is encrypted by Key Encryption key(KEK) -Cloud Key Management Service (KMS)
 		- Customer Supplied Encryption Keys(CSEK) - Keys are kept in Cloud and supplied by Customer
 		- Client-Side Encryption  - Keys are supplied by Customer and not kept in cloud
+- VPN
+	- VPN Gateway and tunnel to be created when implementing GCP VPN 
+	- VPNs are for linking on-permises networks to GCP
+
 Data Privacy
 	- Cloud Data Loss Preventive - to identify Sensitive information and de-identify them by masking,tokenizing, data shifting
 		- Text
@@ -78,6 +85,11 @@ Industry Regulation
 	- PCI DSS - Payment Details
 	- GDPR(General Data Protection Regulation) - EU 
 
+- Stackdriver - will not slow down any GCP applications
+ 	- Stackdriver Monitoring is useful for measuring performance metrics, collect, display and alerts, but not for logs
+	- Stackdriver logging is for real time logging information for managing and searching audit logs.
+	- Stackdriver debugging is to monitor varaibles while the application is running in PROD
+	- Stackdriver tracing is used to analyze performance issues
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 Compute
@@ -318,6 +330,20 @@ Cloud DataFusion:
 	Metadata Aggregator - field level details
 - Cloud Data Fusion provisions an ephemeral Cloud Dataproc cluster, runs the pipeline
 -Lineage of data - transformations which happened on each field of data from source to destination
+
+-----------
+App Engine
+-----------
+ - components - Application, Service, Version and Instance
+ - app.yaml - default app config file
+ - Gcloud components install app-engine-python - command for installing SDK
+
+--------------
+Cloud Function
+--------------
+- function code is stored in zip format
+- 256 MB default amount of storage
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
@@ -572,6 +598,7 @@ Cloud BigQuery
 	- can use SQL for quering the data 
 	- Managed Database(backup, optimization)
 - Count() only returns the number but doesn't remove the duplicates
+- Uses Standard SQL (not support Legacy SQL)
 - Groupby is used to remove duplicates
 - explore datastudio - for graphs on data, data is cached for one hr - can be set by Data Freshness
 - Cloud Dataprep - to get insights on the data
@@ -997,6 +1024,9 @@ Kubeflow
 		- Train Model - Kubeflow MPI,PyTorch
 		- Serve Model - TFServing,KFserving
 		- Monitor -Kubeflow TensorBoard, Metadata
+- Kubernetes - container orchestration platform with a smallest deployment unit of computation as POD
+	- kubectl - utility used to work
+
 
 -----------
 AI Platform
