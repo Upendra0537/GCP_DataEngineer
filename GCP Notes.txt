@@ -85,6 +85,11 @@ Industry Regulation
 	- PCI DSS - Payment Details
 	- GDPR(General Data Protection Regulation) - EU 
 
+- Cloud Logging
+	- Stores data for the last 30 days
+	- Doesnot have life cycle management policies
+	- CloudStorage and BigQuery are sink options
+
 - Stackdriver - will not slow down any GCP applications
  	- Stackdriver Monitoring is useful for measuring performance metrics, collect, display and alerts, but not for logs
 	- Stackdriver logging is for real time logging information for managing and searching audit logs.
@@ -505,6 +510,7 @@ Cloud BigTable - HBase model - https://cloud.google.com/bigtable/docs/overview
 - Visualizer with Heat map to looking for key insights on how the data is being used and for hot spots so that only one node/cluster is not stress much
 - Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
 - Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
+ - Modeling entities as wide-column tables is a way to denormalize in Big Table
 - BigTable is created by instance (supports 1000 tables)
 	- instance type - production(1 or more cluster - with 3 nodes)/development(single node cluster) - cannot change once created
 	- Storage Type - SDD(each node process 2.5TB of data)- always preferred /HDD( 8TB of data per node)
@@ -670,6 +676,9 @@ BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams)
 	- all_sessions_raw_(N) - number of tables partitioned by date
 	- Sample with wildcard SELECT * FROM `ecommerce.sales_by_sku_2017*`
 	- only 4000 partitions allowed
+	- when creating an BigQuery partitioning by Ingestion data, it would create two pseudo columns - can be used in select using alias and connect create a column with similar name.
+		_Partitiontime - Time of Ingestion
+		_PartitionDate - Date of Ingestion
 - Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency - only supported via partitioning
 	- Defining multiple columns are clusters
 	- Order of the columns is critical.
@@ -1072,15 +1081,12 @@ ML Framework
 	- AI Platform
 
 
-
-
-
-	
 TensorFlow
  - Google Opensource end-to-end ML Platform
  - TensorFlow Lite - Mobile/embedded devices
  - TensorFlow.JS - for browser application
  - TensorFlow Extended- for ML Pipelines
+ - using of TPU's is the cost effective way to increase performance at low cost for a Tensor flow ML
 	
 Keras
 - Open source neural network libraries - written in Python
@@ -1133,6 +1139,7 @@ Data Preparation
  - Z-Score - Structure of the data doesn't change but values are moved to O origin
  - LogScaling - small number has many points and vast majority have few points - convering to log(x)
  - Bucketing - moving continous data to discreate data by spliting the data into ranges and selecting a point in each range
+ - Normalization - transformation that scales numeric values to the range 0 1o 1.
 
 Feedforward Neural Network - input- hidden layer - output layer
 Recurrent Neural Network(RNN) - Directed cycles - weather forcase model - Time series problem
