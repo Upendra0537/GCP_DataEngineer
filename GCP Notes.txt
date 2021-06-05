@@ -24,7 +24,6 @@ GCP Structure
 			Projects - Test, Dev
 				Resources - Compute
 
-
 Reference Architectures - gcp.solutions
 
 Security
@@ -42,7 +41,12 @@ IAM
 	- Service Account - Key
 	- Cloud IAM API - Oauth/openid/jwt - for auditing
 	- Service Account User Role - service account access other service account
-	
+
+Primitive Roles
+- Owner
+- Editor
+- Viewer
+
 Roles
 - Billing Administrator is the appropriate role to assign to the finance team for visibility of GCP charges
 - Billing Account Creator - Create new billing accounts
@@ -115,7 +119,7 @@ Compute
 Compute Engine:
 ----------------
  - Standard VM's - can spin up by specifying region and zones, when required has some storage on cluster
- - Premptible VM's - can be used for quick computing, no cluster store
+ - Premptible VM's - can be used for quick computing, no cluster store, can be taken away at anytime
  - Persistance Disks - to create storage space with X storage
 	Data persist even if the VM is shutdown 
 	Data is restricted to the Zone it exist so any VM which is in other region or zone cant access this.
@@ -127,7 +131,7 @@ Compute Engine:
 Cloud DataProc
 --------------
 - Managed Cluster service
-- to submit existing Apachi Spark or Hadoop jobs  - ease of scaling, connector to GCS rather than hdfs, other connectors for analytics BQ
+- to submit existing Apachi Spark or Hadoop jobs  - ease of scaling, connector to GCS rather than hdfs, other connectors for analytics BQ, fault tolerant
 - take care of setting up VM, softwares it requires, setting up Master Node(name node) and worker Node(data node) with other hadoop softwares 
 - billed per usage per second with min of 1 minute
 - Create custom Dataproc image that fulfils the customer requirements and use it to deploy a Dataproc cluster.
@@ -138,7 +142,7 @@ Cloud DataProc
 	- High Availability Cluster - 3 Masters, multiple worker nodes
 - Clusters	
 	- Persistent Clusters - Persistent data cluster
-	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them 
+	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them - Shutdown when not in use 
 - Stackdriver loggering - for monitoring the health
 - On-permis - HDFS to Cloud Storage 
 - Seperate Compute from storage 
@@ -677,7 +681,7 @@ BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams)
 	- Sample with wildcard SELECT * FROM `ecommerce.sales_by_sku_2017*`
 	- only 4000 partitions allowed
 	- when creating an BigQuery partitioning by Ingestion data, it would create two pseudo columns - can be used in select using alias and connect create a column with similar name.
-		_Partitiontime - Time of Ingestion
+		_PartitionTime - Time of Ingestion
 		_PartitionDate - Date of Ingestion
 - Clustering - Saves query time and processing time (Similar to Index) - Saved in a single clusters - reduces latency - only supported via partitioning
 	- Defining multiple columns are clusters
@@ -693,6 +697,7 @@ Best Practices
 		- Limits doesnt help - as all the data is processed to limit the data
 		- Streaming inserts costly
 		- Use Partitions by date
+		- bq query command with the SQL statement and the --dry-run option to return an estimate of the amount of data scanned
 	- Query Performance
 		- Input Data/Data Source
 			- Denormalizations
@@ -715,7 +720,7 @@ Best Practices
 	-Avoid self-joins of large tables
 	-Efficient joins - Denormalization
 	-Use window functions instead of Joins
-	- Join with precomputed values
+	-Join with precomputed values
 	-Approximate aggregation functions 
 		-  COUNT(DISTINCT …), we can use APPROX_COUNT_DISTINCT
 		- APPROX_QUANTILES to compute percentiles
@@ -960,6 +965,7 @@ AutoML API - APIs and Services
 ------------
 - Suit of ML products
 - can custom ML models 
+- uses structured data to build models with little input from users
 - incorporates human labeling service for accurate prediction - label data
 - Graphical UI for training/evaluating/predict
 - ML Problem is shared with AutoML - Google Neural Network searches for a prefered Model and uses it with transfer learning
@@ -1012,9 +1018,20 @@ BigQuery ML
 	- UnSupervised - unlabeled data - clusters
 		- kmeans
 	- Reinforcemen Learning - Contains agents and environemnts, based on a state at a particular points the agent proposes an action and agent is rewarded(+/-) for the action - used in AlphaGo/Chess 
-	
-	
-	
+- Random forest - accuracy can be increased by increasing the number of trees and depth of the tree - hyperparameters(No learning rate)	
+- In Regression Model
+	- High Variance - small changes in few features can lead to large differences in output - no desirable
+	- Low Variance - desired
+	- High Bias - Missing relationship between features
+	- Low Bias - desired
+- AntiClassification is to avoid bias
+- Classification Parity - measures predictive performance across groups.
+- DataSkew - regression model was trained on a set of data that is no longer representative of the data evaluated in production
+- Accuaracy Measures
+	- Recall
+	- Precision
+	-
+
 ----------
 Kubeflow
 ---------
@@ -1058,11 +1075,8 @@ AI Platform
 	- Customer - different configurations
 	- Standard_1 and Premium_1 uses multiple worker and parameter servers - costly
 
-		
-		
 	
 - Training Data -> Auto ML -> Predication with REST API
-
 
 - Kubeflow 
 	- Google Opensource ML Pipeline framework
@@ -1118,12 +1132,14 @@ Methods used to overcome overfitting(fitting of the model so well that the exist
  - feature selection
  - early stop - based on loss graph - stop training the model after few iterations. Dont train the model with high number of iterations which leads to overfitting
 
-Methods use to overcome underfitting
-
+Methods use to overcome underfitting - performing poor on training data
+ - increase the complexity of the model 
 
 Hyperparameters - values which needs to specified before training the model
 	- Model Hyperparameters - relates directly to the model selected  -   Number of Hidden Layers
 	- Algorithm Hyperparameters - relates to training the model - Batch Size, Training Epochs(iterations), Regularization, Learning Rate
+	- Learning rate, activation function and number of layers are hyperparameters - specified before training
+	- Weights are not hyperparameters but are learnt as part of training
 
 Data Preparation
  - Dataset Construction
@@ -1139,6 +1155,7 @@ Data Preparation
  - Z-Score - Structure of the data doesn't change but values are moved to O origin
  - LogScaling - small number has many points and vast majority have few points - convering to log(x)
  - Bucketing - moving continous data to discreate data by spliting the data into ranges and selecting a point in each range
+ - Feature Cross - Cartisian product off all two variables/features  
  - Normalization - transformation that scales numeric values to the range 0 1o 1.
 
 Feedforward Neural Network - input- hidden layer - output layer
@@ -1152,9 +1169,12 @@ Generative Adversarial Networks(GANs) - create images/poet/deepfakes
 	- Discriminator network
 
 In Neural Networks
-- Wide models are used for Memorization, Deep Modesl are for generalization
+- Wide models are used for Memorization, Deep Model are for generalization
 - Deep and wide modes are ideal for Recommendation Applications
 - Epoch - is a single pass through the training data
+- Backpropogation is used to calculate Gradient - learning rate
+- Increasing the learning rate will decrease the training time.
+- Reducing the number of layer/ Reducing the nodes in each layer - reduces the accuracy
 
 Adjustment to Neural Netowrk models
 - Biases  - parameter that is adjusted for a neural network to learn from its training data
