@@ -211,6 +211,22 @@ pTransforms - core beam transforms - https://beam.apache.org/documentation/progr
 - Flatten - Merges multiple pCollections into a single pCollection
 - Partition - How the elements of pCollection can be splitup - reduce phase in mapreduce
 
+- Continous Stream of data, Difficult to handle aggregate functions
+- Data consists of 	
+	ELEMENT DTS
+- DTS is a event Timestamp setup buy pubsub
+- Solution for streaming data - WINDOWS
+	- Fixed Window - 60 Sec - new window starts every 60 sec
+	- sliding Window - (60,5) - New window starts for every 5 secs with a window span of 60 secs
+	- Session Window  - (10*60) - session max size - 600 sec
+- windows gets flushed out or customized behaviour after the timeout
+- Handles latency of data - late data by using Intellegent watermark
+	lag time = actual time - expected time.
+	each window is extended to end at windowtime + lag time to accomidate the late data
+	- WaterMark options
+		- AfterWatermark - based on event time triggered (DTS)
+		- AfterProcessTime - based on processing time
+		- AfterCount - based on Data driven trigger.
 Flow -
 In Cloud - pipeline is triggered in GCP Cloud Dataflow service - which submits GCP Cloud Dataflow jobs - which invokes multiple worker nodes  - which uses cloud storage for data
 
@@ -728,6 +744,14 @@ Best Practices
 		- APPROX_TOP_COUNT to find the top elements 
 		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
 
+- Streaming Data into Bigquery
+	- Uses Streaming Buffer - there is a quote and price for loading Streaming data into Bigquery
+	- prefer to use batch or repeated batch which is free
+	- DataStudio is used to do visual representation of data.
+		- Access to Charts in Datastudio doesn't provide access to the underlying data
+		- if Edit access is provided to chart, access is provided to the whole table and rows from which the chart is made.
+		
+		
 BigQuery ML
    Supports ML models
 	- Linear Regression
@@ -942,12 +966,12 @@ Translaction API
 - Phrase based machine translation model (PBMT)
 
 Natural Language API
-- Sentiment Analysis - 'score' represents an overall emotional leaning of a test from -1.0 (negative) to 1.0 (positive), and 'magnitude' indicates the overall strength of emotion. 'magnitude' is not normalized so longer text blocks may have greater magnitudes.
+- Sentiment Analysis - 'score' represents an overall emotional leaning of a test from -1.0 (negative) to 1.0 (positive), and 'magnitude' indicates the overall strength of emotion. 'magnitude' is not normalized so longer text blocks may have greater magnitudes.Magnitude = 0 to infinity
 - Entity analysis - nouns/things, salience - importance of the entity
 - syntax analysis
-- entity-sentiment analysis
+- entity-sentiment analysis - cateogorizing words - phone numbers, States
 - content classification
-
+	
 DialogFlow API
 - bots
 - intent - Classification 
@@ -976,7 +1000,7 @@ Categories
 		Process
 			- Prepare and Manage Images - label data
 			- Training Models 
-			- Evaludating Model - Metrics - area under the precision/recall curve, Confidence Threshold curve, confusion matrix
+			- Evaluating Model - Metrics - area under the precision/recall curve, Confidence Threshold curve, confusion matrix
 			- Deploy Model - for predictions
 			- Making Predictions
 			- Undeploying Model
@@ -1028,10 +1052,6 @@ BigQuery ML
 - AntiClassification is to avoid bias
 - Classification Parity - measures predictive performance across groups.
 - DataSkew - regression model was trained on a set of data that is no longer representative of the data evaluated in production
-- Accuaracy Measures
-	- Recall
-	- Precision
-	-
 
 ----------
 Kubeflow
@@ -1113,15 +1133,8 @@ Google Colab
 
 ------------------------[
 Machine Learning Concepts
------------------------------
-NLP
- - Syntactical Analysis - Grammer
- - Entity Analysis - cateogorizing words - phone numbers, States
- - Sentiment Analysis - Emotional opinion - +ve,-ve, neutral
-	- Score -1 to +1
-	- Magnitude = 0 to infinity
-
-Methods used to overcome overfitting(fitting of the model so well that the existing label are predicted correctly with the feature but failes to predict unseen data)
+-------------------------
+Methods used to overcome overfitting(fitting of the model so well that the existing label are predicted correctly with the feature but fails to predict unseen data)
  - Data Augmentation - generate more data for training(rotating/flipping) - reduces overfitting and high accuracy in training
  - Regularization
 	L1 Regularization - give weights as zero for not important feature, simple - modulus of the weights
@@ -1130,7 +1143,7 @@ Methods used to overcome overfitting(fitting of the model so well that the exist
  - Reduce size of Network - remove layer/units
  - Hold-out - 80-20 principle of Training vs testing data
  - cross validation - K smaller groups(folds) -  1 fold for testing, all k-1 folds for training.. repeat process untill all the K folds are covered
- - feature selection
+ - feature selection - selecting only specific features
  - early stop - based on loss graph - stop training the model after few iterations. Dont train the model with high number of iterations which leads to overfitting
 
 Methods use to overcome underfitting - performing poor on training data
@@ -1164,7 +1177,7 @@ Recurrent Neural Network(RNN) - Directed cycles - weather forcase model - Time s
 Convolution Neural Network - Visual learning task/Natural language process - have a convolution layer in the hiddern layers 
 	-Pooling Layer - downsamples input - take 2*2 matrix
 		- average pooling - Calculate average 
-		- Max pooling - maxium value
+		- Max pooling - maximum value
 Generative Adversarial Networks(GANs) - create images/poet/deepfakes
 	- Generator network
 	- Discriminator network
@@ -1177,13 +1190,20 @@ In Neural Networks
 - Increasing the learning rate will decrease the training time.
 - Reducing the number of layer/ Reducing the nodes in each layer - reduces the accuracy
 
-Adjustment to Neural Netowrk models
-- Biases  - parameter that is adjusted for a neural network to learn from its training data
-- weights - Parameters that are to be adjected for a neural network to learning for its traingin data
+Adjustment to Neural Network models  y = x1a + x2b + C
+- Biases(C)  - parameter that is adjusted for a neural network to learn from its training data - independent of input values - mostly constant value.
+- weights(a,b) - Parameter that are to be adjected for a neural network to learning for its training data - depends on the input values - represents the connection/feature strength
 
 Model evaluation parameters
-- Classification Problem - Confusion matrix, precision, recall, accuracy
-- Regression Problem - MAE(Mean Absolute Error) ,MSE(Mean Square Error),RMSE(Root Mean Square Error)
+- Classification Problem 
+	- Confusion matrix - 
+	- precision
+	- recall
+	- accuracy - No. of correct Predictions/No. of total predictions
+- Regression Problem 
+	- MAE(Mean Absolute Error) 
+	- MSE(Mean Square Error)
+	- RMSE(Root Mean Square Error)
 
 ML Operationalizing 
 - Deployment - same pipeline for test and PROD
@@ -1204,7 +1224,6 @@ labels = ['will_buy_on_return_visit']
 AS
 <<Select query data>>
 
-
 Evaluate: - area under the curve
 SELECT
   roc_auc,
@@ -1222,38 +1241,14 @@ roc_auc - more value
 SQRT - less value
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Streaming Data processing:
--------------------------------
-- Continous Stream of data, Difficult to handle aggregate functions
-- Data consists of 	
-	ELEMENT DTS
-- DTS is a event Timestamp setup buy pubsub
-- Solution for streaming data - WINDOWS
-	- Fixed Window - 60 Sec - new window starts every 60 sec
-	- sliding Window - (60,5) - New window starts for every 5 secs with a window span of 60 secs
-	- Session Window  - (10*60) - session max size - 600 sec
-- windows gets flushed out or customized behaviour after the timeout
-- Handles latency of data - late data by using Intellegent watermark
-	lag time = actual time - expected time.
-	each window is extended to end at windowtime + lag time to accomidate the late data
-	- WaterMark options
-		- AfterWatermark - based on event time triggered (DTS)
-		- AfterProcessTime - based on processing time
-		- AfterCount - based on Data driven trigger.
-- Streaming Data into Bigquery
-	- Uses Streaming Buffer - there is a quote and price for loading Streaming data into Bigquery
-	- prefer to use batch or repeated batch which is free
-	- DataStudio is used to do visual representation of data.
-		- Access to Charts in Datastudio doesn't provide access to the underlying data
-		- if Edit access is provided to chart, access is provided to the whole table and rows from which the chart is made.
 ----------
 DataLab - Jupyter notebook
 --------
 - Creation of VM with Jupyter notebook attached with Persistant disks
-- Jupiter notes can be shared easily and stored in Google Cloud Source repository.
+- Jupy
+ter notes can be shared easily and stored in Google Cloud Source repository.
 - Runs on Python Kernal with in the VM
 - can connect to differnt GCP products to display the data.
-
 
 ----------
 DataStudio
@@ -1272,7 +1267,6 @@ DataStudio
 - For the reports, datastudio gets the information from Cache with a refresh time of 1hr. but if the need to get the data reflected soon, we can use the refresh button so as to query the report with new data from the original source.
 - Anthos - open source - on permise or cloud application - development and operations experiences - faster/modernized apps
 - cloud source repository - for storing code for free
-- Stackdriver for monitoring the activities from logs - who,what and where - Stackdriver audit logs
 
 GIS Functions
 ---------------
