@@ -593,6 +593,7 @@ how to design row-key (avoid hotspots in cluster)
 		- Bad - sequence Numbers, Timestamp at the start of the row-key 
 	- reverse timestamp  - subtract of device timestamp with system timestamp - records are sorted with recent to old.
 	- use reverse domain 
+	- use high cardinality - unique items
 	- rather than more columns, group all the data in a single column with a delimiter with a unique rowkey ID
 for Time series scenarios
 	- tall and narrow tables
