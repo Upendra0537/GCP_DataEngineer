@@ -1196,14 +1196,20 @@ Adjustment to Neural Network models  y = x1a + x2b + C
 
 Model evaluation parameters
 - Classification Problem 
-	- Confusion matrix - 
-	- precision
-	- recall
+	- Confusion matrix - True Positive(OK)/False Positive(Type 1)/True Negative(Ok)/False Negative(Type 2) - First word if predicted correctly, second work - what model predicted
+	- precision - TP / (TP+FP) - measures how good our model is when the prediction is positive - Spam emails
+	- recall - TP/(TP+FN) - how good our model is at correctly predicting positive classes - tumor cells
+	- F1 Score - between 1 or 0 - 2((Precision * Recall)/(Precision + Recall))
+	- Sensitivity - True Positive Rate  - recall
+	- Specificity - True Negative Rate - TN/(TN+FP)
+	- ROC - Receiver Operating Characteristic - TP Rate Vs FP Rate  
+	- AUC - Area under the Curve - close to 1 is better TP Vs FP
 	- accuracy - No. of correct Predictions/No. of total predictions
 - Regression Problem 
+	- R Square
 	- MAE(Mean Absolute Error) 
-	- MSE(Mean Square Error)
-	- RMSE(Root Mean Square Error)
+	- MSE(Mean Square Error)/RMSE(Root Mean Square Error)
+	- 
 
 ML Operationalizing 
 - Deployment - same pipeline for test and PROD
