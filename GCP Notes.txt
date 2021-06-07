@@ -1056,6 +1056,9 @@ BigQuery ML
 ----------
 Kubeflow
 ---------
+- Google Opensource ML Pipeline framework
+- can be packaged with dependencies and can run on any cloud provider
+- provides visual flow of the activities
 - ML Toolkit for Kubernetes - to operationalize ML Models by
 	- Experimenting in Jupyter Notebooks
 	- Training by TensorFlow
@@ -1074,62 +1077,48 @@ Kubeflow
 - Kubernetes - container orchestration platform with a smallest deployment unit of computation as POD
 	- kubectl - utility used to work
 
-
 -----------
 AI Platform
 -----------
-- cloud Notebooks
+- cloud Notebooks - managed VM with Jupyter 
 	- for sharing notebooks 
 	- Maggic Functions - %%bigquery
-- Overview
+- ML Workflow
 	- Ingest data - GCS or GCS Transfer service
 	- Prepare - Dataflow/Dataproc/BigQuery/Dataprep
 	- Preprocess - same as above
 	- Discover - AI Hub
 	- Develop - Deep Learning VM, AI Plaftform Jupyter notebooks, AI Platform Training, Kubeflow	
-	- Train 
+	- Train - AI Plaftform
 	- Test - TensorFlow Extended,AI Platform Prediction, Kubeflow
-	- Deploy
+	- Deploy - AI Plaftform
+	- Send prediction requests - AI Plaftform
+	- Monitor - AI Plaftform
+	- Manage Model/Version - AI Plaftform
 - Contains Workers, Master and parameter servers
 - Tiers
-	- Basic - single instance  - least cose
+	- Basic - single instance  - least cost
 	- Customer - different configurations
 	- Standard_1 and Premium_1 uses multiple worker and parameter servers - costly
-
-	
 - Training Data -> Auto ML -> Predication with REST API
-
-- Kubeflow 
-	- Google Opensource ML Pipeline framework
-	- can be packaged with dependencies and can run on any cloud provider
-	- provides visual flow the actvitives
-	
-
 AI Hub - for collaboration of Machine learning models 
-
-
 Vision - Imports -> Train -> Evaluate -> Validate
 	- Need labled data
-
 ML Framework
-	- Tensor Flow
+	- TensorFlow
 	- AI Platform
-
-
 TensorFlow
  - Google Opensource end-to-end ML Platform
  - TensorFlow Lite - Mobile/embedded devices
  - TensorFlow.JS - for browser application
  - TensorFlow Extended- for ML Pipelines
  - using of TPU's is the cost effective way to increase performance at low cost for a Tensor flow ML
-	
 Keras
 - Open source neural network libraries - written in Python
 - High level API for fast experimentation which runs on top of the existing Machine learning frameworks
 -tf.kernas - Tensorflow supports keras
-
 Google Colab
-- jupiter notebooks with pre existing python libraries
+- jupyter notebooks with pre existing python libraries
 
 ------------------------[
 Machine Learning Concepts
@@ -1209,7 +1198,6 @@ Model evaluation parameters
 	- R Square
 	- MAE(Mean Absolute Error) 
 	- MSE(Mean Square Error)/RMSE(Root Mean Square Error)
-	- 
 
 ML Operationalizing 
 - Deployment - same pipeline for test and PROD
