@@ -882,7 +882,7 @@ ML
 
 Artificial Intelligence - Discipine(Like Physics) - Narrow AI(specific task - Chess) / General AI (broader activites - humans)
 	- Machince Learning - one alternative (Like Newton's law)
-		- Deep Learning - nueral networks(brain)
+		- Deep Learning - neural networks(brain)
 
 ML Activities
 - Ingest Data (Transfer Services/CloudStorage)
@@ -928,7 +928,7 @@ ML Activities
 		- Structured Data
 			- AutoML Table
 			- Cloud Inference API
-			- Clound Recommendations API
+			- Cloud Recommendations API
 		- Cloud Jobs API
 		- Cloud Data Loss Prevention API
 		- Cloud Speech Synthesis API
