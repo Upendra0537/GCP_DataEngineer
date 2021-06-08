@@ -1014,6 +1014,7 @@ Categories
 			- Data Support
 			- Automatic Feature Engineering
 			- Model Training - parallel testing with different model
+			- Import -> Train -> Models -> Evaluate -> Test&Use
 
 ------------
 BigQuery ML
@@ -1052,7 +1053,8 @@ BigQuery ML
 - AntiClassification is to avoid bias
 - Classification Parity - measures predictive performance across groups.
 - DataSkew - regression model was trained on a set of data that is no longer representative of the data evaluated in production
-
+- BigQuery ML increases the speed of model development and innovation by removing the need to export data from the data warehous
+- Early Stop and Regularization are used for overfitting problem
 ----------
 Kubeflow
 ---------
@@ -1120,7 +1122,7 @@ Keras
 Google Colab
 - jupyter notebooks with pre existing python libraries
 
-------------------------[
+------------------------
 Machine Learning Concepts
 -------------------------
 Methods used to overcome overfitting(fitting of the model so well that the existing label are predicted correctly with the feature but fails to predict unseen data)
