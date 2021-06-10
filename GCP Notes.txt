@@ -729,14 +729,16 @@ Best Practices
 		- SQL Antipatterns
 			- Self Joins/unbalanced joins
 			- Data Skewing
-			- avoid update/insert of single rows
+			- avoid update/insert of single rows - Bigquery is suit for OTAP not OLTP  - BigQuery does table scans than point lookup
 	- Optimising Storage
 		- expiration settings
 		- long term storage advantages
 	- While quering data most of the time consumption is for I/O operations rather than the computes involved in it. That is reducing the query to only pull specific 			Columns information runs faster than the all the columns.
-	-Avoid self-joins of large tables
+	-Avoid self-joins of large tables - instead use window functions
+	-Data Skew - overloading the Slots of a partition - do early filters
 	-Efficient joins - Denormalization
 	-Use window functions instead of Joins
+	- Avoid cross joins which generate more data than input  - use GroupBy and window functions
 	-Join with precomputed values
 	-Approximate aggregation functions 
 		-  COUNT(DISTINCT …), we can use APPROX_COUNT_DISTINCT
@@ -960,6 +962,7 @@ Video API
  	- Getting a ranked list of the most notable entities that match criteria
 	- Predictively Completing  entities within a search box
 	- annotating or orgranizing content using knowledge graph  entities
+- for getting the landmarks we need to pass the location, we will not be able to get the information using MID
 
 Translaction API
 - Neural Machine Translation Model(NMT)
@@ -1131,7 +1134,7 @@ Methods used to overcome overfitting(fitting of the model so well that the exist
 	L1 Regularization - give weights as zero for not important feature, simple - modulus of the weights
 	L2 Regularization - decays the weights towards zero but not zero, complex - sum of the squares of the weights
  - DropOut layer - in neural networks where weights are occusionally set to zero 
- - Reduce size of Network - remove layer/units
+ - Reduce size of Network - remove layer/units - Dimension reduction 
  - Hold-out - 80-20 principle of Training vs testing data
  - cross validation - K smaller groups(folds) -  1 fold for testing, all k-1 folds for training.. repeat process untill all the K folds are covered
  - feature selection - selecting only specific features
