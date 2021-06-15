@@ -10,7 +10,7 @@ Google Cloud Profession - Data Engineering
 	- Completeness
 	- Consistency
 	- Uniformity
-
+	
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
 
 Levels
@@ -144,7 +144,7 @@ Cloud DataProc
 	- Persistent Clusters - Persistent data cluster
 	- Ephemeral Clusters - non Persistent Data Cluster - Prefer to use them - Shutdown when not in use 
 - Stackdriver loggering - for monitoring the health
-- On-permis - HDFS to Cloud Storage 
+- On-permis - HDFS to Cloud Storage, Hbase to BigTable
 - Seperate Compute from storage 
 	- Run hadoop jobs on Cluster with memory block size - inefficient - old way - On-permis
 	- Run Hadoop jobs on Dataproc with Data from Cloud Storage - Petabite bandwidth
@@ -187,7 +187,7 @@ Cloud Dataflow - Apache Beam
 - AutoScaling - AutoBalancing in between the process - Auto Optimization once the pipeline is submitted. If there are independent transforms, they would process parallelly
 - Intellegent Watermark - is the lag time the window need to wait for getting all the data based on the event timestamp to fall into the window.
 - Late Data - data that arrives with timestamp that is inside the window but comes past the watermark
-- Side Inputs
+- Side Inputs - are additional information required to process each element of a pCollection in ParDo
 - Triggers - when the Beams decides to output aggregated results - assumes all the data is present in the window - for bounded data when it process all data in the window - for unbounded when the watermark passes the end of the window
 	- eventtime - default
 	- processing time
@@ -266,6 +266,7 @@ Cloud Pub/Sub
 - Seek Feature - once messages are retained in Topic, we can use seek feature to go to a point of time(backforward/forward) for the subscriber to retrieve all the messages
 - snapshot allowed in topic
 - Stackdriver logging for checking the health of the pub/sub
+- Pub/Sub is paired with Cloud Dataflow to deduplicate, in-order and recieve only one message - Common usage
 - Issues
 	- Messages can arrive not in order of the event - use alternative transformations by adding timestamp to the metadata of the message and order them
 	- Duplication of message expected
@@ -373,6 +374,12 @@ Cloud Function
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
 ---------
+
+CAP Theorem
+- ACID - Availability, Consistent, Integrity, Durability - Consistent
+- BASE - Basically Available, SoftState, Eventually Consistent - Availability
+- Partial Tolerance
+
 DataLake - Single source of data of the organization - gets data from multiple sources in multiple formats - Datadump - Cloud Storage
 Datawarehouse - Processed data which can be used for analytics - Known data - Cloud BigQuery
 Cloud Storage - Buckets - files
@@ -395,7 +402,7 @@ Cloud Storage -  AWS S3 Bucket
  - Limitation of the object size to 5T
  - version is allowed but is OFF by default
  - Class is respect to object not with respect to version
- - Small data transfers - console, gutil
+ - Small data transfers - console, gsutil
  - large data transfers - Transfer appliance(one time transfer - TA40 - 40TB or TA300 - 300TB), Transfer services(Source to Sink - scheduled/repeatitive)
  - Can trigger events when new data gets loaded to a bucket
 
@@ -434,6 +441,7 @@ Cloud SQL   - AWS RDB
 - Managed Instance(not Fully)
 	- need to setup a window for upgrades
 	- 30TB limit
+	- for more read capability, create read replica's
 - My SQL
 	- Primary Instance and Failover Replica in two different zones
 	- when Primary Instance failes, the failover takes the load and becomes Primary Instance and a new Failover replica gets created in a different zone - High availability
@@ -457,6 +465,8 @@ Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
 - No SQL Document store - horizontal scaling
 - Real time DB with mobile SDK
 - ACID Transactions - OLTP
+- lookup by key method - strongly consistant
+- Ancestor Query - strongly consistant
 
 - High level structure => Collections => sub collections => documents(JSON files)
 - need unique identifier for each document
@@ -620,7 +630,7 @@ for Time series scenarios
 ---------------
 Cloud BigQuery
 ---------------
-- Petabyte scale, serverless, highlyscalable enterprise datawarehouse
+- Petabyte scale, serverless, Columnar, highlyscalable enterprise datawarehouse
 - In-memory BI Engine  - for dashboards
 	- can use SQL for quering the data 
 	- Managed Database(backup, optimization)
