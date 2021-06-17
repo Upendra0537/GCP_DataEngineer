@@ -1273,6 +1273,7 @@ DataStudio
 ----------
 - helps to generate reports(detailed level) and Dashboards(KPI's and highlevel)
 	- both contains charts and tables
+- prefetch caching - used only with Owner's credentials 
 - Charts
 	- Tables
 	- Scorecards - highlevel numbers - KPI's
