@@ -481,7 +481,7 @@ db.collection(u'crew').add(info.to_dict()) // system will create unique identifi
 --------------
 Cloud Spanner - no AWS service
 -------------
-- Managed SQL
+- Managed SQL, Wide Column Family Table Design
 - Horizontally Scalable
 - high levelability 99.999%
 - distrupts CAP - Consistency, availability, Partition Tolerance - only two achievable in SQL DB
@@ -540,7 +540,7 @@ Cloud BigTable - HBase model - https://cloud.google.com/bigtable/docs/overview
 - Visualizer with Heat map to looking for key insights on how the data is being used and for hot spots so that only one node/cluster is not stress much
 - Maximum Read throughput - Timestamp first in the row key - data goes to single node - easy access to read
 - Maximum Write throughput - Timestamp last in the row key - to remove bottleneck on a single node
- - Modeling entities as wide-column tables is a way to denormalize in Big Table
+ - Modeling entities as wide-column tables is a way to denormalize in Big Table for higher performance
 - BigTable is created by instance (supports 1000 tables)
 	- instance type - production(1 or more cluster - with 3 nodes)/development(single node cluster) - cannot change once created
 	- Storage Type - SDD(each node process 2.5TB of data)- always preferred /HDD( 8TB of data per node)
@@ -755,6 +755,10 @@ Best Practices
 		- APPROX_QUANTILES to compute percentiles
 		- APPROX_TOP_COUNT to find the top elements 
 		- APPROX_TOP_SUM to compute top elements based on the sum of an element.
+- Pricing - Query Validator/ Pricing Calculator
+	- Free to Load the data/Export Data/ Metadata
+	- Storage - amount of data/ingestion for streaming/autodiscount for old data
+	- Processing - flat rate/ 1TB per month Free 
 
 - Streaming Data into Bigquery
 	- Uses Streaming Buffer - there is a quote and price for loading Streaming data into Bigquery
@@ -1128,6 +1132,10 @@ TensorFlow
  - TensorFlow.JS - for browser application
  - TensorFlow Extended- for ML Pipelines
  - using of TPU's is the cost effective way to increase performance at low cost for a Tensor flow ML
+ - uses Lazy Evaluation - get the results after running the Directed Graph
+ - Eager Evaluation - is not used in Production, this is to run the model imperatively/immediately for testing
+ - Tensorflow Estimation API
+ - Tensorflow Dashboards - for monitoring data, loss and model
 Keras
 - Open source neural network libraries - written in Python
 - High level API for fast experimentation which runs on top of the existing Machine learning frameworks
@@ -1175,6 +1183,7 @@ Data Preparation
  - Bucketing - moving continous data to discreate data by spliting the data into ranges and selecting a point in each range
  - Feature Cross - Cartisian product off all two variables/features  
  - Normalization - transformation that scales numeric values to the range 0 1o 1.
+ - Independent Test data or Cross Validate - if data is scares
 
 Feedforward Neural Network - input- hidden layer - output layer
 Recurrent Neural Network(RNN) - Directed cycles - weather forcase model - Time series problem
@@ -1199,7 +1208,7 @@ Adjustment to Neural Network models  y = x1a + x2b + C
 - weights(a,b) - Parameter that are to be adjected for a neural network to learning for its training data - depends on the input values - represents the connection/feature strength
 
 Model evaluation parameters
-- Classification Problem 
+- Classification Problem - cross entropy
 	- Confusion matrix - True Positive(OK)/False Positive(Type 1)/True Negative(Ok)/False Negative(Type 2) - First word if predicted correctly, second work - what model predicted
 	- precision - TP / (TP+FP) - measures how good our model is when the prediction is positive - Spam emails
 	- recall - TP/(TP+FN) - how good our model is at correctly predicting positive classes - tumor cells
