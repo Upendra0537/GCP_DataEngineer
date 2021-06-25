@@ -10,20 +10,16 @@ Google Cloud Profession - Data Engineering
 	- Completeness
 	- Consistency
 	- Uniformity
-	
 - wget http://www.ssa.gov/OACT/babynames/names.zip - used to get files form other locations
-
 Levels
 Level-1 - Security
 Level-2 - Compute - Storage - Network
 Level-3 - Big Data and ML Products
-
 GCP Structure
 	Organization - TCS
 		Folders - Dep1,Dep2 -> Team1, Team2
 			Projects - Test, Dev
 				Resources - Compute
-
 Reference Architectures - gcp.solutions
 
 Security
@@ -35,25 +31,21 @@ Shared Responsibilty Model
 	- Customer Following Best Practices - IAM roles
 	- Principle of Least previlages - IAM roles
 	- Always be watching - logs 
-
 IAM
 	- Human User - Username/Password
 	- Service Account - Key
 	- Cloud IAM API - Oauth/openid/jwt - for auditing
 	- Service Account User Role - service account access other service account
-
 Primitive Roles
 - Owner
 - Editor
 - Viewer
-
 Roles
 - Billing Administrator is the appropriate role to assign to the finance team for visibility of GCP charges
 - Billing Account Creator - Create new billing accounts
 - Billing Account Administrator - Manage billing account(no create)
 - Billing Account User/Project Billing Manager - link projects to billing accounts
 - Billing Account Viewer - view billing account details
-
 Data Security
 	- Encryption at flight or at Rest
 	- Limit Blast Radius 
@@ -74,26 +66,22 @@ Data Security
 - VPN
 	- VPN Gateway and tunnel to be created when implementing GCP VPN 
 	- VPNs are for linking on-permises networks to GCP
-
 Data Privacy
 	- Cloud Data Loss Preventive - to identify Sensitive information and de-identify them by masking,tokenizing, data shifting
 		- Text
 		- Images
 		- Psuedo-Anonymization
 		- Risk Analysis
-
 Industry Regulation
 	- FedRAMP - Federal Risk and Authorization Management Program - 
 	- Children's Online Privacy Protection Act(COPPA) - Parents Consent
 	- HIPAA - Health insurance Portability and Accountability Act
 	- PCI DSS - Payment Details
 	- GDPR(General Data Protection Regulation) - EU 
-
 - Cloud Logging
 	- Stores data for the last 30 days
 	- Doesnot have life cycle management policies
 	- CloudStorage and BigQuery are sink options
-
 - Stackdriver - will not slow down any GCP applications
  	- Stackdriver Monitoring is useful for measuring performance metrics, collect, display and alerts, but not for logs
 	- Stackdriver logging is for real time logging information for managing and searching audit logs.
@@ -159,7 +147,6 @@ Cloud DataProc
 - Support MapReduce,Spark,Hive,Pig
 - Cloud Storage Connector - for data rather than HDFS and preemptable cluster can be used 
 - Other connectors - BigTable, BigQuery, GCS, Stackdriver Logging and Stackdriver Monitoring
-
 How to use
 - Data proc - create cluster - region/cluster choice
 	 -  jobs - submit job - type of language, main class, arguments, jar file
@@ -201,7 +188,6 @@ Cloud Dataflow - Apache Beam
 - data skewing - holding up a resource for other resources to complete the work
 - Drain Feature - stops pulling the data from the source and tries to complete the dataflow with the existing data.
 - maxNumWorkers - to limit scaling 
-
 pTransforms - core beam transforms - https://beam.apache.org/documentation/programming-guide/#core-beam-transforms
 - ParDo - acts on a single data from input pCollection and generates zero,one,many data into the output pCollection - DoFn is a template to create userdefined functions referred in ParDo - Map phase in Mapreduce
 - Aggregation - to merge common keys or window from an input pCollection and write it to output pCollection
@@ -210,7 +196,6 @@ pTransforms - core beam transforms - https://beam.apache.org/documentation/progr
 - Combine - Combining of elements - Min/Max/Sum
 - Flatten - Merges multiple pCollections into a single pCollection
 - Partition - How the elements of pCollection can be splitup - reduce phase in mapreduce
-
 - Continous Stream of data, Difficult to handle aggregate functions
 - Data consists of 	
 	ELEMENT DTS
@@ -229,14 +214,11 @@ pTransforms - core beam transforms - https://beam.apache.org/documentation/progr
 		- AfterCount - based on Data driven trigger.
 Flow -
 In Cloud - pipeline is triggered in GCP Cloud Dataflow service - which submits GCP Cloud Dataflow jobs - which invokes multiple worker nodes  - which uses cloud storage for data
-
 IAM 
 - Cloud Dataflow service accounts - to access VM's and data
 - Controller service accounts - worker jobs - compute engine service accounts
-
 Regional Endpoints - to control dataflow works to be availble in the region - reduce latency
 Migrating MapReduce jobs to Cloud Dataflow
-
 Cloud Dataflow SQL - Apache Beam SQL - QUery is converted to SQL Transformation in the pipeline for batch or streaming data
 How to use
 - run pipelines in local to test and debug - remove DataFlowRunner from pipeline options to run locally
@@ -279,17 +261,14 @@ Cloud Pub/Sub
 	- Distributed logging
 	- Device Data Streaming
 - IAM - grant access to specific topics and subscriptions
-
 How to use
 - Create a Topic in Cloud Pub/Sub
 - Create a Subscription to the topic created
 - Publish a message to the Topic.
 - Pull the message from the Published and Acknowledge it so that the Topic is now empty.
-
 Samples:
 cloudstorage notifications - pub/sub - cloud function - cloudstorage
 cloudstorage - pub/sub - dataflow - bigquery
-
 Commands
 gcloud pubsub topics create sandiego
 gcloud pubsub topics publish sandiego --message "hello"
@@ -310,7 +289,6 @@ gcloud pubsub subscriptions pull --auto-ack mySub1
 └─────────────┴──────────────────┴────────────┘
 gcloud pubsub subscriptions delete mySub1
 gcloud pubsub topics delete sandiego
-
 gcloud pubsub topics list
 
 ---------------
@@ -370,7 +348,6 @@ Cloud Function
 - function code is stored in zip format
 - 256 MB default amount of storage
 
-
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Storage
 ---------
@@ -405,17 +382,14 @@ Cloud Storage -  AWS S3 Bucket
  - Small data transfers - console, gsutil
  - large data transfers - Transfer appliance(one time transfer - TA40 - 40TB or TA300 - 300TB), Transfer services(Source to Sink - scheduled/repeatitive)
  - Can trigger events when new data gets loaded to a bucket
-
 Regional - default - in different zones
 Dual-Regional - two regions - same part of the world
 Multi-Regional - all data centers - in a geographic region - US/Europe
-
 storage classes - access/availability/latency same only the cost varies
 - Standard - Daily or in usage 
 - Nearline - Once in a week - 30 days min
 - Coldline - Once in a Month - 90 days min
 - Archive - High retrival Cost, Low Storage cost - once in a year - 365 days min
-
 Operations Charges
 	- Class A Operations - Upload - expensive
 	- Class B Operations - Download
@@ -425,7 +399,6 @@ Network Charges
 	- egress rates apply for other locations data transfers between GCS
 Data Retrieval Charges
 	- based on the storage class
-
 Life Cycle Rules 
 	- used for deleted or change storage class 
 	- driven by rules
@@ -433,7 +406,6 @@ Life Cycle Rules
 IAM - access control - bulk buckets
 ACL - Access control List - multiple accounts - granular level
 Signed URL - To provide a Cloud storage URL for read/write/delete access and restricting the URL with respect the access time. can only be used with gsutil - No UI Console
-
 
 -----------
 Cloud SQL   - AWS RDB
@@ -450,13 +422,11 @@ Cloud SQL   - AWS RDB
 - PostgreSQL
 	- Primary Instance and Standby Instance, data is stored in Persistance disks
 	- when Primary Instance fails, Standby Instance take up load and waits for the Primay Instance to be back online
-
 Work on Cloud SQL
 - Create a Cloud SQL Instance - create a Key
 - Create a compute engine VM - login to it, download the My SQL client app, provide the IP, Port and Key details
 - Connect to the My SQL and import the data/create tables 
 - The Stackdriver Logging agent requires the fluentd plugin to be configured to read logs from your database application. 
-
 
 ----------------
 Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
@@ -467,12 +437,9 @@ Cloud Firestore (replaces Cloud Datastore) - AWS DynomoDB
 - ACID Transactions - OLTP
 - lookup by key method - strongly consistant
 - Ancestor Query - strongly consistant
-
 - High level structure => Collections => sub collections => documents(JSON files)
 - need unique identifier for each document
-
 - Datastore is perfect for semi-structured data less than 1TB in size. Product catalogs are a recommended use case
-
 Example:
 info = { name:jack} //json file
 db.collection(u'crew').document(u'jimdoc').set(info) //jimdoc is the identifier defined by user
@@ -495,7 +462,6 @@ Cloud Spanner - no AWS service
 - compute workloads in teh same region
 - google has specific Configurations -  multiple regions
 - locking read-write/read only
-
 Working on Cloud Spanner:
 - Create a Cloud Spanner Instance - region/nodes
 - open google shell script and run the python scripts to create tables and insert data
@@ -509,7 +475,6 @@ Cloud Memorystore - AWS ElasticCache
 	- Basic tier/standard tier
 	- region
 - session storage/in memory data required
-
 
 --------------
 Cloud BigTable - HBase model - https://cloud.google.com/bigtable/docs/overview
@@ -579,7 +544,6 @@ Data Storage model
    - operations only by row 
    - sparse table system - empty column cells wont waste space in the table
    - garbage collection feature to remove data based on rules
-
 Limits
    - single row key - 4KB 
    - cell limitation - 10MB with history
@@ -596,8 +560,6 @@ Limits
 	- scale-up or scale-down - take 20 mins 
 	- not enought nodes - 70%
    - Dont use hashing or raw bytes as row keys
-   
-
 - Replication increases read through put but reduces write through put as all the cluster needs to be updated with same data.
 	- adding of nodes to the cluster - no impact on write through-put
 	- adding additional cluster with nodes - impacts write through-put
@@ -606,7 +568,6 @@ HDD Outlier than using SSD
 - You need to store over 10TB of data.
 - You need to maintain costs, Data Archival(more write less read)
 - You plan on running batch workloads instead of frequently executing random reads across a small number of rows.
-
 Change from HDD to SSD/Dev to Prod - Export your Bigtable data into a new instance, and configure the new instance type as production with SSDs
 - Using one table for all tenants is the most efficient way to store and access multi-tenant data
 how to design row-key (avoid hotspots in cluster)
@@ -647,29 +608,24 @@ Sample:  Repeat (Datatype)
 1	1234-1	start		01-01-2021
 		inprogress	
 		complete
-
 Event - Record (Mode) - STRUCT 
 	Event.start	- Timestamp 
 	Event.end	- Timestamp
  - Import Supported formations - csv/JSON(every records is new line delimited)/Avro(compressed data)/Parquet(encoding small files)/ORC(Optimized Row Columniar - Hive Data)/ Cloud Datastore Export/Cloud Firestore Exports 
 Data Transfer service - to get data from Google products/AWS/GCP/socialMedia connectors
-
 Struct Sample:
 #standardSQL
 SELECT race, participants.name
 FROM racing.race_results AS r, r.participants
-
 #standardSQL
 SELECT COUNT(p.name) AS racer_count
 FROM racing.race_results AS r, UNNEST(r.participants) AS p
-
 - Unnested is used to extract the data from a Record Mode so as to flatten the data.
 	You need to UNNEST() arrays to bring the array elements back into rows
 	UNNEST() always follows the table name in your FROM clause (think of it conceptually like a pre-joined table)
 - Slots 
 	- unit of computation Power - number of slots determined by query size and complexity, used for pricing
 	- Flat rate pricing to enable a higher total slot quota for your project - fixed pricing available(i.e. x number of slots for y timeperiod)
-
 - Project.dataset.table - bigquery structure
 	- Dataset - Similar to Database
 		- Native tables - data in teh BQ
@@ -698,7 +654,6 @@ Roles
 
 BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams) 
 	- Cloud Audit logs - BigQueryAuditMetadata
-
 - Optimized for read not good for updates(use BigTable)
 - Big Data Transfer Service  -  EL , ELT, ETL
 - Partitioning - Save query time
@@ -716,7 +671,6 @@ BigQuery Monitoring - Stackdriver monitoring(Admin/Data/SystemEvents Streams)
 	- Bigquery internally Clusters data automatically
 	- no limitation on number of clusters in a table
 Sample: CREATE TABLE 'mydataset.mytable' PARTITIONED BY DATE(timestamp) CLUSTERED BY customer_id,product_id
-
 Best Practices
 	- Controlled Cost
 		- No Select *
@@ -759,15 +713,13 @@ Best Practices
 	- Free to Load the data/Export Data/ Metadata
 	- Storage - amount of data/ingestion for streaming/autodiscount for old data
 	- Processing - flat rate/ 1TB per month Free 
-
 - Streaming Data into Bigquery
 	- Uses Streaming Buffer - there is a quote and price for loading Streaming data into Bigquery
 	- prefer to use batch or repeated batch which is free
 	- DataStudio is used to do visual representation of data.
 		- Access to Charts in Datastudio doesn't provide access to the underlying data
 		- if Edit access is provided to chart, access is provided to the whole table and rows from which the chart is made.
-		
-		
+			
 BigQuery ML
    Supports ML models
 	- Linear Regression
@@ -776,7 +728,6 @@ BigQuery ML
 	- K-means clustering
    - Use SQL to train and evaluate
    - Prepare data -> Train -> evaluate -> Predit
-
 - If a query is run, the result is generally cache for 24 hrs in a temporary cache table, If we run the same query there will not be any processing done and query time = 0 Sec
 - Compatable with backward filling - filling any missed values which arrive late
 - Lineage - To track the source, process and destination of the data - Metadata of the data 
@@ -788,7 +739,6 @@ SELECT race, participants.name
 FROM racing.race_results
 CROSS JOIN
 race_results.participants # full STRUCT name
-
 #standardSQL
 SELECT race, participants.name
 FROM racing.race_results AS r, r.participants
@@ -797,10 +747,8 @@ finding the number of elements with ARRAY_LENGTH(<array>)
 deduplicating elements with ARRAY_AGG(DISTINCT <field>)
 ordering elements with ARRAY_AGG(<field> ORDER BY <field>)
 limiting ARRAY_AGG(<field> LIMIT 5)
-
 bq show bigquery-public-data:samples.shakespeare 
-
-bq query --use_legacy_sql=false \
+bq query --use_legacy_sql=false 
 'SELECT
    word,
    SUM(word_count) AS count
@@ -810,21 +758,14 @@ bq query --use_legacy_sql=false \
    word LIKE "%raisin%"
  GROUP BY
    word'
-
-#standardSQL
-
-# copy one day of ecommerce data to explore
+#standardSQL# copy one day of ecommerce data to explore
 CREATE OR REPLACE TABLE ecommerce.revenue_transactions_20170801
 #schema
-(
-  fullVisitorId STRING NOT NULL OPTIONS(description="Unique visitor ID"),
+(  fullVisitorId STRING NOT NULL OPTIONS(description="Unique visitor ID"),
   visitId STRING NOT NULL OPTIONS(description="ID of the session, not unique across all users"),
   channelGrouping STRING NOT NULL OPTIONS(description="Channel e.g. Direct, Organic, Referral..."),
-  totalTransactionRevenue FLOAT64 NOT NULL OPTIONS(description="Revenue for the transaction")
-)
- OPTIONS(
-   description="Revenue transactions for 08/01/2017"
- ) AS
+  totalTransactionRevenue FLOAT64 NOT NULL OPTIONS(description="Revenue for the transaction"))
+ OPTIONS(description="Revenue transactions for 08/01/2017") AS
  SELECT DISTINCT
   fullVisitorId,
   CAST(visitId AS STRING) AS visitId,
@@ -832,22 +773,17 @@ CREATE OR REPLACE TABLE ecommerce.revenue_transactions_20170801
   totalTransactionRevenue / 1000000 AS totalTransactionRevenue
  FROM `data-to-insights.ecommerce.all_sessions_raw`
  WHERE date = '20170801'
-      AND totalTransactionRevenue IS NOT NULL #XX transactions
-;
-
+      AND totalTransactionRevenue IS NOT NULL #XX transactions;
 What are ways to overcome stale data? - reflecting of changes when the upstream table has changes
 There are two ways to overcome stale data in reporting tables:
 - Periodically refresh the permanent tables by re-running queries that insert in new records. This can be done with BigQuery scheduled queries or with a Cloud Dataprep / Cloud Dataflow workflow.
 - Use logical views to re-run a stored query each time the view is selected
-
 maxBadRecords - used to set X% of invalid data allowed
-
 #standardSQL
 CREATE OR REPLACE VIEW ecommerce.vw_latest_transactions
 OPTIONS(
   description="latest 100 ecommerce transactions",
-  labels=[('report_type','operational')]
-)
+  labels=[('report_type','operational')])
 AS
 SELECT DISTINCT
   date,
@@ -858,18 +794,12 @@ SELECT DISTINCT
  FROM `data-to-insights.ecommerce.all_sessions_raw`
  WHERE totalTransactionRevenue IS NOT NULL
  ORDER BY date DESC # latest transactions
- LIMIT 100
-;
-
+ LIMIT 100;
 - SAFE_DIVIDE(field1,field2) to avoid divide by 0 errors
-
 -  The difference between a UNION and UNION ALL is that a UNION will not include duplicate records.
-
 - Linking external tables to BigQuery  - Importing data from the google sheet will not create the table but would estabilish a connection. if we update the google sheet. the changes are reflected in the query.
-
  - STRING_AGG(DISTINCT v2ProductName ORDER BY v2ProductName LIMIT 10) AS products_ordered
 	- is used to get sample data from a column with comma seperated.
-
 - ARRAY_AGG(DISTINCT v2ProductName) AS push_all_names_into_array
 	- is used to create an array of product names
 SELECT
@@ -883,23 +813,19 @@ SELECT
 WHERE visitId = 1501570398
 GROUP BY fullVisitorId, date
 ORDER BY date
-
 - Joins
 	- Cross join - outerjoin - no need of join condition - merges the tables
 	- Inner join - by default - only the common data in both tables
 	- Left Inner Join - full data of the left table and matching with the second tables - commonly used join.
 	- right Inner join - full data of the right table and matching with the second tables - generaly we will use left inner join by swapping tables.
-	
 -  The summary will be slightly different because the RAND() component of the WHERE clause will return a different 1% selection of the data each time the query is executed.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 ML
 ----------
 
 Artificial Intelligence - Discipine(Like Physics) - Narrow AI(specific task - Chess) / General AI (broader activites - humans)
 	- Machince Learning - one alternative (Like Newton's law)
 		- Deep Learning - neural networks(brain)
-
 ML Activities
 - Ingest Data (Transfer Services/CloudStorage)
 	- Prepare(Dataproc/DataFlow/Dataprep/Bigquery)
@@ -948,8 +874,6 @@ ML Activities
 		- Cloud Jobs API
 		- Cloud Data Loss Prevention API
 		- Cloud Speech Synthesis API
-
-
 Vision API
 - Modes
 	- Synchronous Mode
@@ -963,7 +887,6 @@ Vision API
 	- logo detection -  retail sector	
 	- Explicit Content Detection -  Adult/spoof/medical/violance/racy
 	- Web Entity/page detection
-
 Video API
 - Operations
 	- Detect labels
@@ -977,28 +900,23 @@ Video API
 	- Predictively Completing  entities within a search box
 	- annotating or orgranizing content using knowledge graph  entities
 - for getting the landmarks we need to pass the location, we will not be able to get the information using MID
-
 Translaction API
 - Neural Machine Translation Model(NMT)
 - Phrase based machine translation model (PBMT)
-
 Natural Language API
 - Sentiment Analysis - 'score' represents an overall emotional leaning of a test from -1.0 (negative) to 1.0 (positive), and 'magnitude' indicates the overall strength of emotion. 'magnitude' is not normalized so longer text blocks may have greater magnitudes.Magnitude = 0 to infinity
 - Entity analysis - nouns/things, salience - importance of the entity
 - syntax analysis
 - entity-sentiment analysis - cateogorizing words - phone numbers, States
 - content classification
-	
 DialogFlow API
 - bots
 - intent - Classification 
-
 Speech-to-text API
 - Synchronous Recognition - returns text after all the input is processed. smaller audio
 - Asynchronous Recognition - Poll for the results
 - Streaming Recongnition - results are produced while streaming
 Speaker Diarization - interpret multiple speaker in the same audio
-
 Text-to-Speech API
 - Speech Synthesis Markup Language(SSML) - adding pauses/sounds in the output speech
 
@@ -1011,7 +929,6 @@ AutoML API - APIs and Services
 - incorporates human labeling service for accurate prediction - label data
 - Graphical UI for training/evaluating/predict
 - ML Problem is shared with AutoML - Google Neural Network searches for a prefered Model and uses it with transfer learning
-
 Categories
 	- Sight with AutoML
 		Process
@@ -1072,6 +989,7 @@ BigQuery ML
 - DataSkew - regression model was trained on a set of data that is no longer representative of the data evaluated in production
 - BigQuery ML increases the speed of model development and innovation by removing the need to export data from the data warehous
 - Early Stop and Regularization are used for overfitting problem
+
 ----------
 Kubeflow
 ---------
@@ -1157,16 +1075,13 @@ Methods used to overcome overfitting(fitting of the model so well that the exist
  - cross validation - K smaller groups(folds) -  1 fold for testing, all k-1 folds for training.. repeat process untill all the K folds are covered
  - feature selection - selecting only specific features
  - early stop - based on loss graph - stop training the model after few iterations. Dont train the model with high number of iterations which leads to overfitting
-
 Methods use to overcome underfitting - performing poor on training data
  - increase the complexity of the model 
-
 Hyperparameters - values which needs to specified before training the model
 	- Model Hyperparameters - relates directly to the model selected  -   Number of Hidden Layers
 	- Algorithm Hyperparameters - relates to training the model - Batch Size, Training Epochs(iterations), Regularization, Learning Rate
 	- Learning rate, activation function and number of layers are hyperparameters - specified before training
 	- Weights are not hyperparameters but are learnt as part of training
-
 Data Preparation
  - Dataset Construction
  - Feature Engineering - Biases and weights
@@ -1184,7 +1099,6 @@ Data Preparation
  - Feature Cross - Cartisian product off all two variables/features  
  - Normalization - transformation that scales numeric values to the range 0 1o 1.
  - Independent Test data or Cross Validate - if data is scares
-
 Feedforward Neural Network - input- hidden layer - output layer
 Recurrent Neural Network(RNN) - Directed cycles - weather forcase model - Time series problem
 Convolution Neural Network - Visual learning task/Natural language process - have a convolution layer in the hiddern layers 
@@ -1194,7 +1108,6 @@ Convolution Neural Network - Visual learning task/Natural language process - hav
 Generative Adversarial Networks(GANs) - create images/poet/deepfakes
 	- Generator network
 	- Discriminator network
-
 In Neural Networks
 - Wide models are used for Memorization, Deep Model are for generalization
 - Deep and wide modes are ideal for Recommendation Applications
@@ -1202,11 +1115,9 @@ In Neural Networks
 - Backpropogation is used to calculate Gradient - learning rate
 - Increasing the learning rate will decrease the training time.
 - Reducing the number of layer/ Reducing the nodes in each layer - reduces the accuracy
-
 Adjustment to Neural Network models  y = x1a + x2b + C
 - Biases(C)  - parameter that is adjusted for a neural network to learn from its training data - independent of input values - mostly constant value.
 - weights(a,b) - Parameter that are to be adjected for a neural network to learning for its training data - depends on the input values - represents the connection/feature strength
-
 Model evaluation parameters
 - Classification Problem - cross entropy
 	- Confusion matrix - True Positive(OK)/False Positive(Type 1)/True Negative(Ok)/False Negative(Type 2) - First word if predicted correctly, second work - what model predicted
@@ -1222,26 +1133,20 @@ Model evaluation parameters
 	- R Square
 	- MAE(Mean Absolute Error) 
 	- MSE(Mean Square Error)/RMSE(Root Mean Square Error)
-
 ML Operationalizing 
 - Deployment - same pipeline for test and PROD
 - Scoring - standard framework - Predictive Model Markup Language(PMML)/Open Neural Network Exchange(ONNX)
 - Logging - input request,output response, Model version and data validation error, response time
 - Monitoring - Processing/predictive performance
 - Retraining - Data drift/concept drift
-
 Example:
-
 Model Creations:
 CREATE OR REPLACE MODEL `ecommerce.classification_model`
-OPTIONS
-(
+OPTIONS(
 model_type='logistic_reg',
-labels = ['will_buy_on_return_visit']
-)
+labels = ['will_buy_on_return_visit'])
 AS
 <<Select query data>>
-
 Evaluate: - area under the curve
 SELECT
   roc_auc,
@@ -1253,7 +1158,6 @@ SELECT
   ELSE 'poor' END AS model_quality
 FROM
   ML.EVALUATE(MODEL ecommerce.classification_model,  ( <<select query data>>)
-
 evaulation params - better model
 roc_auc - more value 
 SQRT - less value
